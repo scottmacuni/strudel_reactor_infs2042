@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { initStrudel, note, hush, evalScope, getAudioContext, webaudioOutput, registerSynthSounds, initAudioOnFirstClick, transpiler } from "@strudel/web";
 import { StrudelMirror } from '@strudel/codemirror';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { useEffect, useRef } from "react";
+import {stranger_tune} from "../tunes";
 
-function StrudelREPL( {setEditor}) {
+function StrudelREPL({
+    playState,
+}) {
     const hasRun = useRef(false);
+    const [repl, setRepl] = useState(null);
+    const [playSong, setPlaySong] = useState(playState);
+
+    useEffect(() => {
+        if(repl && playSong) {
+            repl.evaluate();
+        } else if (repl && !playSong) {
+            repl.stop();
+        } else {
+            console.log("ERR: no repl: ", repl)
+        }
+    }, [playSong])
+    
   useEffect(() => {
 
     if (!hasRun.current) {
@@ -13,7 +29,7 @@ function StrudelREPL( {setEditor}) {
       (async () => {
         await initStrudel();
 
-        let globalEditor = new StrudelMirror({
+        let strudelRepl = new StrudelMirror({
           defaultOutput: webaudioOutput,
           getTime: () => getAudioContext().currentTime,
           transpiler,
@@ -30,7 +46,8 @@ function StrudelREPL( {setEditor}) {
             await Promise.all([loadModules, registerSynthSounds(), registerSoundfonts()]);
           },
         });
-        setEditor(globalEditor);
+        strudelRepl.setCode(stranger_tune);
+        setRepl(strudelRepl);
         // TODO: re-integrate proc Proc()
       })();
       //document.getElementById('proc').value = stranger_tune
@@ -40,7 +57,7 @@ function StrudelREPL( {setEditor}) {
   }, []);
 
   return (
-    <div className="col-md-8">
+    <div className="w-1-2">
       <div id="editor" />
     </div>
   )

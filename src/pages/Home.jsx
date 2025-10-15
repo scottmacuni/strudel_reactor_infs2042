@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Preprocessor, {Proc} from '../components/Preprocessor'; 
 import StrudelREPL from '../components/StrudelREPL';
 import { RiMusicAiFill } from "react-icons/ri"; // Insalled react-icons npm lib
+import GlobalOptions from '../components/GlobalOptions';
+import MidiPad from '../components/MidiPad';
 
 // Main home page rendered in App.tsx which structures the  React SPA
 function Home() {
 
-    const [globalEditor, setGlobalEditor] = useState(null);
+    // Global states
+    const [play, setPlay] = useState(false);
+
 
   return (
     <>
@@ -18,25 +22,17 @@ function Home() {
         </header>
         {/* Main SPA */}
       <main>
-        <div className="container-fluid">
+        <div className="w-full">
+            <GlobalOptions setPlay={setPlay} />
           {/* Pre-Processor */}
-          <Preprocessor globalEditor={globalEditor}/>
+          {/* <Preprocessor globalEditor={globalEditor}/> */}
 
-          <div className="row">
-            {/* BTNs */}
-            <div className="col-md-4">
-              <nav>
-                <button id="process" className="btn btn-outline-primary">Preprocess</button>
-                <button id="process_play" className="btn btn-outline-primary">Proc & Play</button>
-                <br />
-                <button id="play" className="btn btn-outline-primary">Play</button>
-                <button id="stop" className="btn btn-outline-primary">Stop</button>
-              </nav>
-            </div>
+          <div className='flex flex-row'>
+            <StrudelREPL playState={play}/>
+            <MidiPad />
           </div>
-          {/* REPL */}
-          <StrudelREPL setEditor={setGlobalEditor} />
-          <div className="row">
+
+   {/*        <div className="row">
             <div className="col-md-8">
               <div id="editor" />
             </div>
@@ -54,9 +50,8 @@ function Home() {
                 </label>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
-
       </main >
       {/* Footer */}
         <footer className='w-full bg-dark text-center p-2'>
