@@ -47,7 +47,7 @@ export function Proc() {
 // Pre-processor allowing you to add custom strudel code to trigger changes
 function Preprocessor({globalEditor}) {
   return (
-    <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+    <div className="col-md-8">
         <label htmlFor="exampleFormControlTextarea1" className="form-label">Text to preprocess:</label>
         <textarea className="form-control" rows="15" id="proc" ></textarea>
     </div>
