@@ -6,22 +6,23 @@ import { useEffect, useRef } from "react";
 import {stranger_tune} from "../tunes";
 
 function StrudelREPL({
-    playState,
+    isPlaying,
 }) {
     const hasRun = useRef(false);
     const [repl, setRepl] = useState(null);
-    const [playSong, setPlaySong] = useState(playState);
 
     useEffect(() => {
-        if(repl && playSong) {
+        if(repl && isPlaying) {
+            console.log("start repl: ", repl)
             repl.evaluate();
-        } else if (repl && !playSong) {
+        } else if (repl && !isPlaying) {
+            console.log("stop repl: ", repl)
             repl.stop();
         } else {
             console.log("ERR: no repl: ", repl)
         }
-    }, [playSong])
-    
+    }, [isPlaying])
+
   useEffect(() => {
 
     if (!hasRun.current) {

@@ -32,13 +32,14 @@ import { FaCircleStop } from "react-icons/fa6";
 
 // Contains global options for SPA, in a nav bar like design
 function GlobalOptions({
-    setPlay,
+    isPlaying,
+    togglePlayState,
 }) {
 
   return (
     <div className='flex flex-row w-full h-60 justify-center gap-3 p-1 bg-secondary'>
-        <button className='btn' onClick={setPlay(true)}><FaPlay size={20}/></button>
-        <button className='btn' onClick={setPlay(false)}><FaCircleStop size={20}/></button>
+        <button disabled={isPlaying} className='btn' onClick={() => togglePlayState(true)}><FaPlay size={20}/></button>
+        <button disabled={!isPlaying} className='btn' onClick={() => togglePlayState(false)}><FaCircleStop size={20}/></button>
         <button>Pre</button>
         <button>P&P</button>
         <button>D</button>

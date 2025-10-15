@@ -9,8 +9,13 @@ import MidiPad from '../components/MidiPad';
 function Home() {
 
     // Global states
-    const [play, setPlay] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
 
+    // State toggles
+    const togglePlay = (state) => {
+        console.log("Play state change: ", state)
+        setIsPlaying(state);
+    }
 
   return (
     <>
@@ -23,12 +28,12 @@ function Home() {
         {/* Main SPA */}
       <main>
         <div className="w-full">
-            <GlobalOptions setPlay={setPlay} />
+            <GlobalOptions isPlaying={isPlaying} togglePlayState={togglePlay} />
           {/* Pre-Processor */}
           {/* <Preprocessor globalEditor={globalEditor}/> */}
 
           <div className='flex flex-row'>
-            <StrudelREPL playState={play}/>
+            <StrudelREPL isPlaying={isPlaying}/>
             <MidiPad />
           </div>
 
