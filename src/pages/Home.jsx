@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import Preprocessor, {Proc} from '../components/Preprocessor'; 
 import StrudelREPL from '../components/StrudelREPL';
 import { RiMusicAiFill } from "react-icons/ri"; // Insalled react-icons npm lib
 import GlobalOptions from '../components/GlobalOptions';
-import MidiPad from '../components/MidiPad';
+import MidiPad from '../components/midipad/MidiPad';
 
 // Main home page rendered in App.tsx which structures the  React SPA
 function Home() {
@@ -27,35 +26,13 @@ function Home() {
         </header>
         {/* Main SPA */}
       <main>
-        <div className="w-full">
+        <div className="w-full h-full">
             <GlobalOptions isPlaying={isPlaying} togglePlayState={togglePlay} />
-          {/* Pre-Processor */}
-          {/* <Preprocessor globalEditor={globalEditor}/> */}
-
-          <div className='flex flex-row'>
+          <div className='flex flex-row h-full'>
             <StrudelREPL isPlaying={isPlaying}/>
             <MidiPad />
           </div>
 
-   {/*        <div className="row">
-            <div className="col-md-8">
-              <div id="editor" />
-            </div>
-            <div className="col-md-4">
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"  defaultChecked />
-                <label className="form-check-label" htmlFor="flexRadioDefault1">
-                  p1: ON
-                </label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"  />
-                <label className="form-check-label" htmlFor="flexRadioDefault2">
-                  p1: HUSH
-                </label>
-              </div>
-            </div>
-          </div> */}
         </div>
       </main >
       {/* Footer */}

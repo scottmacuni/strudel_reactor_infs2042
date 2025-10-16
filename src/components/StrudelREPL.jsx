@@ -3,7 +3,7 @@ import { initStrudel, note, hush, evalScope, getAudioContext, webaudioOutput, re
 import { StrudelMirror } from '@strudel/codemirror';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { useEffect, useRef } from "react";
-import {stranger_tune} from "../tunes";
+import {stranger_tune} from "../lib/tunes";
 
 function StrudelREPL({
     isPlaying,

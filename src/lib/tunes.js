@@ -1,5 +1,5 @@
 // TODO: reimplement the pre-processor
-{/* <p1_Radio></p1_Radio> */}
+{/* <p1_Radio>*/}
 export const stranger_tune = `setcps(0.7);
 
 p1: n("0 2 4 6 7 6 4 2")
