@@ -28,10 +28,8 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-bg);
   box-sizing: border-box;
 }
-
 
 #root {
   display: flex;
@@ -187,4 +185,23 @@ header.fixed-top {
 
 footer.fixed-bottom {
   height: 50px;
+}
+
+/* Preprocessor popup */
+.preprocessor-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.preprocessor-content {
+  width: 50vw;
+  height: 70vh;
+  background: var(--color-neutral);
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }

@@ -3,12 +3,14 @@ import StrudelREPL from '../components/StrudelREPL';
 import { RiMusicAiFill } from "react-icons/ri"; // Insalled react-icons npm lib
 import GlobalOptions from '../components/GlobalOptions';
 import MidiPad from '../components/midipad/MidiPad';
+import Preprocessor from '../components/Preprocessor';
 
 // Main home page rendered in App.tsx which structures the  React SPA
 function Home() {
 
     // Global states
     const [isPlaying, setIsPlaying] = useState(false);
+    const [showProcessor, setShowProcessor] = useState(false);
 
     // State toggles
     const togglePlay = (state) => {
@@ -18,6 +20,8 @@ function Home() {
 
   return (
      <>
+      {/* Preprocessor hidden but opens as a popup dialog */}
+      <Preprocessor isOpen={showProcessor} onClose={() => setShowProcessor(false)} />
       {/* Header */}
       <header className="w-full d-flex flex-row text-left text-audiowide bg-dark p-2 fixed-top">
         <h1 className="text-accent ms-2">Strudel Reactor</h1>
@@ -27,7 +31,11 @@ function Home() {
       {/* Main Content */}
       <main className="app-main">
         <div className="global-options">
-          <GlobalOptions isPlaying={isPlaying} togglePlayState={togglePlay} />
+          <GlobalOptions 
+            isPlaying={isPlaying} 
+            togglePlayState={togglePlay}
+            showProcessor={setShowProcessor}
+          />
         </div>
 
         <div className="d-flex flex-row flex-fill app-content">
@@ -42,7 +50,6 @@ function Home() {
           </div>
         </div>
       </main>
-
       {/* Footer */}
       <footer className="w-full bg-dark text-center p-2 fixed-bottom">
         <p className="text-lg text-roboto text-default-white m-0">

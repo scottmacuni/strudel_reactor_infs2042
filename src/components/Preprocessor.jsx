@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { IoCloseSharp } from "react-icons/io5";
 
 /* export function SetupButtons() {
 
@@ -43,15 +44,31 @@ export function Proc() {
 
   return replace
 } */
-
-// Pre-processor allowing you to add custom strudel code to trigger changes
-function Preprocessor({globalEditor}) {
-  return (
-    <div className="col-md-8">
+/*     <div className="col-md-8">
         <label htmlFor="exampleFormControlTextarea1" className="form-label">Text to preprocess:</label>
         <textarea className="form-control" rows="15" id="proc" ></textarea>
-    </div>
-  )
-}
+    </div>gvg */
 
+// Pre-processor allowing you to add custom strudel code to trigger changes
+// Hidden by default but acts as a pop-up if the user wants to see the pre-processed code and edit manually
+// User react-dom createPortal to explicitly render above the HTML body as this is pop-up behaviour
+function Preprocessor({ isOpen, onClose }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="preprocessor-dialog">
+      <div className="preprocessor-content">
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <h4 className="m-0">Strudel Pre-Processor</h4>
+          <button className="btn btn-sm btn-outline-secondary" onClick={onClose}>
+            <IoCloseSharp size={14} />
+          </button>
+        </div>
+        <div>
+          <p className='text-lg'>View and edit the raw pre-processor code manually</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 export default Preprocessor
