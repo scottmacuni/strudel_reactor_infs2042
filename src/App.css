@@ -194,6 +194,7 @@ footer.fixed-bottom {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
+  overflow-y: auto;
 }
 
 .preprocessor-content {
@@ -204,4 +205,9 @@ footer.fixed-bottom {
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  overflow-y: auto;
+}
+
+.save-btn:hover {
+  background-color: var(--color-accent);
 }
