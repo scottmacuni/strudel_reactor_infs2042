@@ -20,18 +20,26 @@ a:hover{
 html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
   height: 100%;
+  overflow-x: hidden;
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+  box-sizing: border-box;
+}
+
 
 #root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
-main {
-  flex: 1;
-}
 
 /* Colour Helpers */
 .bg-dark { background-color: var(--color-dark);}
@@ -122,8 +130,36 @@ main {
 .mr-2 {margin-right: 8px;}
 
 /* Component specific classes */
+/* Main home page */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px; 
+  padding-bottom: 50px; 
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.global-options {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--color-border);
+}
 
 /* Midipad */
+.midi-panel {
+  width: 50%;
+  min-width: 300px;
+  background-color: var(--color-surface);
+  overflow: hidden;
+}
+
 .midi-btn-container {
   width: 100%;
   height: 100%;
@@ -134,4 +170,21 @@ main {
   width: 80px;
   height: 80px;
   border-radius: 5px;
+}
+
+/* REPL */
+.repl-panel {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: 1px solid var(--color-neutral);
+}
+
+/* Header/footer fixed heights */
+header.fixed-top {
+  height: 70px;
+}
+
+footer.fixed-bottom {
+  height: 50px;
 }

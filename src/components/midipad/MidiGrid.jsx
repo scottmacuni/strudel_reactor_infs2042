@@ -7,14 +7,16 @@ function MidiGrid() {
           <MidiGridButton />
           <MidiGridButton />
           <MidiGridButton />
-        </div>
-        <div className='row'>
-          <MidiGridButton />
-          <MidiGridButton />
-
           <MidiGridButton />
         </div>
         <div className='row'>
+          <MidiGridButton />
+          <MidiGridButton />
+          <MidiGridButton />
+          <MidiGridButton />
+        </div>
+        <div className='row'>
+          <MidiGridButton />
           <MidiGridButton />
           <MidiGridButton />
           <MidiGridButton />

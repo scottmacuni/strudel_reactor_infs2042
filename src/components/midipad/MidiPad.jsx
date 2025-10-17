@@ -4,11 +4,11 @@ import MidiGrid from './MidiGrid'
 // The midi pad controller component left of the Strudel REPL
 function MidiPad() {
   return (
-    <div className='w-1-2 bg-surface h-full w-full'>
-      <div >`
+    <div className='bg-surface h-full w-full'>
+      <div>
         <div class="row">
            <div class="col">
-              1 of 2
+              Top controls
           </div>
         </div>
         <div class="row">
@@ -18,6 +18,9 @@ function MidiPad() {
               <button>2</button>
               <button>3</button>
               <button>4</button>
+              <input type='range'></input>
+              <input type='range'></input>
+              <input type='range'></input>
             </div>
                       </div>
           <div class="col">

@@ -3,7 +3,7 @@ import { initStrudel, note, hush, evalScope, getAudioContext, webaudioOutput, re
 import { StrudelMirror } from '@strudel/codemirror';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { useEffect, useRef } from "react";
-import {stranger_tune} from "../lib/tunes";
+import {stranger_tune, bug_from_heaven_tune} from "../lib/tunes";
 
 function StrudelREPL({
     isPlaying,
@@ -47,7 +47,7 @@ function StrudelREPL({
             await Promise.all([loadModules, registerSynthSounds(), registerSoundfonts()]);
           },
         });
-        strudelRepl.setCode(stranger_tune);
+        strudelRepl.setCode(bug_from_heaven_tune);
         setRepl(strudelRepl);
         // TODO: re-integrate proc Proc()
       })();
@@ -58,7 +58,7 @@ function StrudelREPL({
   }, []);
 
   return (
-    <div className="w-1-2">
+    <div>
       <div id="editor" />
     </div>
   )

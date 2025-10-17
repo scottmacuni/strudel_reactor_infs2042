@@ -17,30 +17,40 @@ function Home() {
     }
 
   return (
-    <>
-        {/* Header */}
-        <header className='w-full flex flex-row text-left text-audiowide bg-dark p-2'>
-            <h1 className='text-accent ml-2'>Strudel Reactor</h1>
-            {/* Music icon from react-icons lib */}
-            <RiMusicAiFill size={42} className='ml-2' fill='#DBF227'/>
-        </header>
-        {/* Main SPA */}
-      <main>
-        <div className="w-full h-full">
-            <GlobalOptions isPlaying={isPlaying} togglePlayState={togglePlay} />
-          <div className='flex flex-row h-full'>
-            <StrudelREPL isPlaying={isPlaying}/>
-            <MidiPad />
+     <>
+      {/* Header */}
+      <header className="w-full d-flex flex-row text-left text-audiowide bg-dark p-2 fixed-top">
+        <h1 className="text-accent ms-2">Strudel Reactor</h1>
+        <RiMusicAiFill size={42} className="ms-2" fill="#DBF227" />
+      </header>
+
+      {/* Main Content */}
+      <main className="app-main">
+        <div className="global-options">
+          <GlobalOptions isPlaying={isPlaying} togglePlayState={togglePlay} />
+        </div>
+
+        <div className="d-flex flex-row flex-fill app-content">
+          {/* Left Panel Strudel REPL*/}
+          <div className="repl-panel">
+            <StrudelREPL isPlaying={isPlaying} />
           </div>
 
+          {/* Right Panel MidiPad */}
+          <div className="midi-panel">
+            <MidiPad />
+          </div>
         </div>
-      </main >
+      </main>
+
       {/* Footer */}
-        <footer className='w-full bg-dark text-center p-2'>
-            <p className='text-lg text-roboto text-default-white'>INFS 2042 ------ Scott MacDonald ------ MACSY039</p>
-        </footer>
+      <footer className="w-full bg-dark text-center p-2 fixed-bottom">
+        <p className="text-lg text-roboto text-default-white m-0">
+          INFS 2042 —— Scott MacDonald —— MACSY039
+        </p>
+      </footer>
     </>
-    )
+  )
 }
 
 export default Home;
