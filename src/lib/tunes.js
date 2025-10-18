@@ -13,13 +13,6 @@ p1: n("0 2 4 6 7 6 4 2")
 p2: "<a1 e2>/8".clip(0.8).struct("x*8").s("supersaw").note();
 // Grabbed from Hacker News: https://news.ycombinator.com/item?id=44939874
 // @version 1.2
-
-
-
-
-
-
-
 `;
 
 export const bug_from_heaven_tune = `// "Bug From Heaven (wip)"

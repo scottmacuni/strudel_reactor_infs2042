@@ -14,6 +14,7 @@ function Home() {
     const [showProcessor, setShowProcessor] = useState(false);
     const [procText, setProcText] = useState(stranger_tune)
 
+
     // State toggles
     const togglePlay = (state) => {
         console.log("Play state change: ", state)
@@ -27,6 +28,7 @@ function Home() {
         isOpen={showProcessor} 
         onClose={() => setShowProcessor(false)}
         procText={procText}
+        setProcText={setProcText}
       />
       {/* Header */}
       <header className="w-full d-flex flex-row text-left text-audiowide bg-dark p-2 fixed-top">

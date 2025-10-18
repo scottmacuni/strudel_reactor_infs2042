@@ -1,8 +1,19 @@
 import React, { useState } from 'react'
-import { initStrudel, note, hush, evalScope, getAudioContext, webaudioOutput, registerSynthSounds, initAudioOnFirstClick, transpiler } from "@strudel/web";
+import { 
+  initStrudel, 
+  note, 
+  hush, 
+  evalScope, 
+  getAudioContext, 
+  webaudioOutput, 
+  registerSynthSounds, 
+  initAudioOnFirstClick, 
+  transpiler,
+} from "@strudel/web";
 import { StrudelMirror } from '@strudel/codemirror';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { useEffect, useRef } from "react";
+import { samples } from '@strudel/webaudio';
 
 function StrudelREPL({
     isPlaying,
@@ -11,6 +22,7 @@ function StrudelREPL({
     const hasRun = useRef(false);
     const [repl, setRepl] = useState(null);
 
+    // Handle play state
     useEffect(() => {
         if(repl && isPlaying) {
             console.log("start repl: ", repl)
@@ -22,7 +34,8 @@ function StrudelREPL({
             console.log("ERR: no repl: ", repl)
         }
     }, [isPlaying])
-
+  
+  // Instantiate REPL mirror
   useEffect(() => {
 
     if (!hasRun.current) {
@@ -44,7 +57,11 @@ function StrudelREPL({
               import('@strudel/tonal'),
               import('@strudel/webaudio'),
             );
-            await Promise.all([loadModules, registerSynthSounds(), registerSoundfonts()]);
+            await Promise.all([
+              loadModules, 
+              registerSynthSounds(), 
+              registerSoundfonts(),
+            ]);
           },
         });
         strudelRepl.setCode(procText);
@@ -56,6 +73,13 @@ function StrudelREPL({
     }
 
   }, []);
+
+  // Handle proc text change
+  useEffect(() => {
+    if(repl){
+      repl.setCode(procText);
+    }
+  }, [procText]);
 
   return (
     <div>

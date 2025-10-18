@@ -170,6 +170,25 @@ body {
   border-radius: 5px;
 }
 
+/* Mute radio buttons */
+.switch-container {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.switch-option {
+  display: inline-block;
+  width: 100%;
+  padding: 8px 0;
+  background-color: var(--color-text-muted);
+  color: var(--color-text-black);
+}
+
+.switch-option.active {
+  background-color: var(--color-neutral);
+  color: white;
+}
+
 /* REPL */
 .repl-panel {
   flex: 1;

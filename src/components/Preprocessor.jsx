@@ -1,11 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoCloseSharp } from "react-icons/io5";
 import { FaRegSave } from "react-icons/fa";
 
 // Pre-processor allowing you to add custom strudel code to trigger changes
 // Hidden by default but acts as a pop-up if the user wants to see the pre-processed code and edit manually
 // User react-dom createPortal to explicitly render above the HTML body as this is pop-up behaviour
-function Preprocessor({ isOpen, onClose, procText }) {
+function Preprocessor({ 
+  isOpen, 
+  onClose, 
+  procText,
+  setProcText,
+}) {
+  const [localTextBuf, setLocalTextBuf] = useState(""); // allows local editing before saving to parent state
+
+  // Set local when pop up opens or proc text changes
+  useEffect(() =>{
+    if(isOpen) {
+      setLocalTextBuf(procText || "write your strudel code here and save to apply...")
+    }
+  }, [isOpen, procText]);
+  
+  // Handle local state changes
+  const handleLocalTextChange = (e) => {
+    setLocalTextBuf(e.target.value);
+  }
+
+  // Handle save to main state
+  const handleSaveState = () => {
+    // Save if changes made
+    if(localTextBuf.trim() !== procText.trim()) {
+      setProcText(localTextBuf);
+    }
+    onClose();
+  }
+
+  // Only render on open state
   if (!isOpen) return null;
 
   return (
@@ -14,7 +43,7 @@ function Preprocessor({ isOpen, onClose, procText }) {
         <div className="d-flex justify-content-between align-items-center mb-2">
           <h4 className="m-0">Pre-Processor</h4>
           <div>
-              <button className='btn btn-outline-secondary mr-2'>
+              <button className='btn btn-outline-secondary mr-2' onClick={handleSaveState}>
                 Save <FaRegSave size={14} />
               </button>
              <button className="btn btn-outline-secondary" onClick={onClose}>
@@ -24,7 +53,7 @@ function Preprocessor({ isOpen, onClose, procText }) {
         </div>
         <div>
           <p className='text-lg'>View and edit the raw pre-processor code manually</p>
-          <textarea value={procText} className="form-control" rows="12" id="proc" ></textarea>
+          <textarea value={localTextBuf} onChange={handleLocalTextChange} className="form-control" rows="12" id="proc" ></textarea>
         </div>
       </div>
     </div>

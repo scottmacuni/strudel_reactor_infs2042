@@ -1,29 +1,28 @@
 import React from 'react'
 import MidiGrid from './MidiGrid'
+import MuteRadioBtn from './MuteRadioBtn'
 
 // The midi pad controller component left of the Strudel REPL
 function MidiPad() {
   return (
     <div className='bg-surface h-full w-full'>
       <div>
-        <div class="row">
-           <div class="col">
+        <div className="row">
+           <div className="col">
               Top controls
           </div>
         </div>
-        <div class="row">
-          <div className='col-2'>
-            <div className='mt-2 mb-2'>
-              <button>1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>4</button>
+        <div className="row">
+          <div className='col-3'>
+            <div className='mt-2 mb-2 container'>
+              <MuteRadioBtn instrumentId={"drums"} /><br/>
+              <MuteRadioBtn instrumentId={"guitar"} /><br/>
               <input type='range'></input>
               <input type='range'></input>
               <input type='range'></input>
             </div>
-                      </div>
-          <div class="col">
+          </div>
+          <div className="col">
             <div className='midi-btn-container bg-dark p-2'>
               <MidiGrid />
             </div>
