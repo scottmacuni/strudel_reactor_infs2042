@@ -13,7 +13,6 @@ import {
 import { StrudelMirror } from '@strudel/codemirror';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { useEffect, useRef } from "react";
-import { samples } from '@strudel/webaudio';
 
 function StrudelREPL({
     isPlaying,
@@ -36,7 +35,7 @@ function StrudelREPL({
     }, [isPlaying])
   
   // Instantiate REPL mirror
-  useEffect(() => {
+useEffect(() => {
 
     if (!hasRun.current) {
       hasRun.current = true;
@@ -61,6 +60,7 @@ function StrudelREPL({
               loadModules, 
               registerSynthSounds(), 
               registerSoundfonts(),
+              
             ]);
           },
         });

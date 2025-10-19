@@ -1,8 +1,8 @@
-import React from 'react'
 import MidiGrid from './MidiGrid'
 import MuteRadioBtn from './MuteRadioBtn'
 
 // The midi pad controller component left of the Strudel REPL
+// Allows for single sounds to be played with the midi pad outside of the REPL code
 function MidiPad() {
   return (
     <div className='bg-surface h-full w-full'>
