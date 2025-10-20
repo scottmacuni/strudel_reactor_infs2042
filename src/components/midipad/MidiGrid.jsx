@@ -22,7 +22,7 @@ function MidiGrid() {
         hush()
       }
     }
-    , 1000)
+    , 100)
   }
 
 

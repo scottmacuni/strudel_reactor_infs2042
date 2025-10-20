@@ -38,17 +38,19 @@ function GlobalOptions({
 
   return (
     <div className='flex flex-row w-full h-60 justify-between p-1 bg-secondary'>
-      <div className='flex flex-row gap-3'>
+      <div className='flex flex-row gap-3 ml-40'>
         <button className='btn' onClick={() => showProcessor(true)}><FiEdit size={24}/></button>
-         <button>P&P</button>
-          <button>D</button>
-      </div>
-      <div className='flex flex-row gap-3'>
         <button disabled={isPlaying} className='btn' onClick={() => togglePlayState(true)}><FaPlay size={20}/></button>
         <button disabled={!isPlaying} className='btn' onClick={() => togglePlayState(false)}><FaCircleStop size={20}/></button>
       </div>
-
       <div className='flex flex-row gap-3'>
+          <button>A</button>
+          <button>B</button>
+          <button>C</button>
+          <button>D</button>
+      </div>
+
+      <div className='flex flex-row gap-3 mr-40'>
         <button>E</button>
         <button>F</button>
         <button>G</button>       

@@ -1,62 +1,103 @@
 // TODO: reimplement the pre-processor
 {/* <p1_Radio>*/}
-export const stranger_tune = `setcps(0.7);
+export const stranger_tune = `setcps(140/60/4)
 
-p1: n("0 2 4 6 7 6 4 2")
-  .scale("<c3:major>/2")
-  .s("supersaw")
-  .distort(0.7)
-  .superimpose((x) => x.detune("<0.5>"))
-  .lpenv(perlin.slow(3).range(1, 4))
-  .lpf(perlin.slow(2).range(100, 2000))
-  .gain(0.3);
-p2: "<a1 e2>/8".clip(0.8).struct("x*8").s("supersaw").note();
-// Grabbed from Hacker News: https://news.ycombinator.com/item?id=44939874
-// @version 1.2
-`;
+samples('github:algorave-dave/samples')
+samples('https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/strudel.json')
+samples('https://raw.githubusercontent.com/Mittans/tidal-drum-machines/main/machines/tidal-drum-machines.json')
 
-export const bug_from_heaven_tune = `// "Bug From Heaven (wip)"
-// song @by Tim Smith
-// script @by eefano
-setcps(100/60/2)
-const standardtuning = [40,45,50,55,59,64];
-const fingering = 
-{A:"0:0:2:2:2:0",Am:"0:0:2:2:1:0",A7:"x:0:2:0:2:0",D:"x:0:0:2:3:2",Dm:"x:0:0:2:3:1",D7:"x:0:0:2:1:2",
- E:"0:2:2:1:0:0",Em:"0:2:2:0:0:0",E7:"0:2:2:1:3:0",G7:"3:2:0:0:0:1",C:"x:3:2:0:1:0",Dx:"x:0:0:2:3:2",Ds:"x:0:0:1:3:0"
-};
-const gstrum = 
-{u:"<[[1,[~ 3@10],4]@2 ~]!2 [1,4,5]>*3", 
- v:"<[[0,[~ 3@10],5]@2 ~]!2 [0,3,4]>*3", 
- w:"<[[1,[~ 3@10],4]@2 ~]!2 [1,2,3]>*3", 
- x:"<[1,[~ 2@50],[~ ~ 4@50]]>",
- z:"<[[3,4,5] ~]*2>"
-};
-const bstrum = {u:"<[1 2]>", v:"<[2 1]>", w:"<[1 0]>", x:"~", z:"~"};
+const gain_patterns = [
+  "2",
+  "{0.75 2.5}*4",
+    "{0.75 2.5!9 0.75 2.5!5 0.75 2.5 0.75 2.5!7 0.75 2.5!3 <2.5 0.75> 2.5}%16",
+]
 
-const gString = register('gString', (n, pat) => 
-  (pat.fmap((v) => { if(v[n]=='x') return note(0).velocity(0);
-      return note(v[n]+standardtuning[n]); } 
-  ).innerJoin()));
-const guitar = (strums,fingers,tuning=standardtuning) => (strums.pickOut(
-    [fingers.pickOut(fingering).gString(0),fingers.pickOut(fingering).gString(1),fingers.pickOut(fingering).gString(2)
-    ,fingers.pickOut(fingering).gString(3),fingers.pickOut(fingering).gString(4),fingers.pickOut(fingering).gString(5)]));
-const split = register('split', (deflt, callback, pat) => callback(deflt.map((d,i)=> pat.withValue((v)=>{
-  const isobj = v.value !== undefined; const value = isobj ? v.value : v;
-  const result = Array.isArray(value)?(i<value.length?value[i]:d):(i==0?value:d);
-  return (i==0 && isobj) ? {...v,value:result} : result; }))));
+const drum_structure = [
+"~",
+"x*4",
+"{x ~!9 x ~!5 x ~ x ~!7 x ~!3 < ~ x > ~}%16",
+]
 
-gtr: "<~@2 [[0 1]!2]@16 2@3 3@8>".pickRestart(["<Am:u:6 E:v:5 Am:u:4 E:v:3>","<Am:u:2 A:w:7>","<Am:u:2 E:x A:x>","<Dx:z Ds:z>"])
-  .split([0,0,0],s=>s[0].layer(
-  x=>guitar(s[1].pick(gstrum),x).s("gm_acoustic_guitar_steel:1").release(.1).gain(.8).room(.5).hpf(300).lpf(5000).late(1/64),
-  x=>guitar(s[1].pick(bstrum),x).s("gm_pizzicato_strings:1").transpose(-12).release(.1).gain(.65).room(.6).lpf(1000),
-  x=>chord(x).anchor("g5").voicing().s("gm_string_ensemble_1").gain(.1).room(1).layer(p=>p.pan(1),p=>p.pan(0).late(.1))
-    ).transpose(s[2]))
+const basslines = [
+  "[[eb1, eb2]!16 [f2, f1]!16 [g2, g1]!16 [f2, f1]!8 [bb2, bb1]!8]/8",
+  "[[eb1, eb2]!16 [bb2, bb1]!16 [g2, g1]!16 [f2, f1]!4 [bb1, bb2]!4 [eb1, eb2]!4 [f1, f2]!4]/8"
+]
 
-drm: "< 0@2 [0,1]@17 2 ~ 0@8>".pick([
-     s("<rd>*2"),
-     s("<~ sd>*2"),
-     s("<rd>")
-  ]).bank("BossDR110").room(1).lpf(1800).gain(.6)
+const arpeggiator1 = [
+"{d4 bb3 eb3 d3 bb2 eb2}%16",
+"{c4 bb3 f3 c3 bb2 f2}%16",
+"{d4 bb3 g3 d3 bb2 g2}%16",
+"{c4 bb3 f3 c3 bb2 f2}%16",
+]
 
-uff: "<[gm_acoustic_guitar_steel:1,gm_string_ensemble_1,gm_pizzicato_strings:1] ~@1000>".gain(0)
-// @version 1.1`
+const arpeggiator2 = [
+"{d4 bb3 eb3 d3 bb2 eb2}%16",
+"{c4 bb3 f3 c3 bb2 f2}%16",
+"{d4 bb3 g3 d3 bb2 g2}%16",
+"{d5 bb4 g4 d4 bb3 g3 d4 bb3 eb3 d3 bb2 eb2}%16",
+]
+
+
+const pattern = 0
+const bass = 0
+
+bassline:
+note(pick(basslines, bass))
+.sound("supersaw")
+.postgain(2)
+.room(0.6)
+.lpf(700)
+.room(0.4)
+.postgain(pick(gain_patterns, pattern))
+
+
+main_arp: 
+note(pick(arpeggiator1, "<0 1 2 3>/2"))
+.sound("supersaw")
+.lpf(300)
+.adsr("0:0:.5:.1")
+.room(0.6)
+.lpenv(3.3)
+.postgain(pick(gain_patterns, pattern))
+
+
+drums:
+stack(
+  s("tech:5")
+  .postgain(6)
+  .pcurve(2)
+  .pdec(1)
+  .struct(pick(drum_structure, pattern)),
+
+  s("sh").struct("[x!3 ~!2 x!10 ~]")
+  .postgain(0.5).lpf(7000)
+  .bank("RolandTR808")
+  .speed(0.8).jux(rev).room(sine.range(0.1,0.4)).gain(0.6),
+
+  s("{~ ~ rim ~ cp ~ rim cp ~!2 rim ~ cp ~ < rim ~ >!2}%8 *2")
+  .bank("[KorgDDM110, OberheimDmx]").speed(1.2)
+  .postgain(.25),
+)
+
+drums2: 
+stack(
+  s("[~ hh]*4").bank("RolandTR808").room(0.3).speed(0.75).gain(1.2),
+  s("hh").struct("x*16").bank("RolandTR808")
+  .gain(0.6)
+  .jux(rev)
+  .room(sine.range(0.1,0.4))
+  .postgain(0.5),
+  
+  s("[psr:[2|5|6|7|8|9|12|24|25]*16]?0.1")
+  .gain(0.1)
+  .postgain(pick(gain_patterns, pattern))
+  .hpf(1000)
+  .speed(0.5)
+  .rarely(jux(rev)),
+)
+//Remixed and reproduced from Algorave Dave's code found here: https://www.youtube.com/watch?v=ZCcpWzhekEY
+// all(x => x.gain(mouseX.range(0,1)))
+// all(x => x.log())
+
+// @version 1.2`;
+

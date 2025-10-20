@@ -1,4 +1,3 @@
-import './cors-redirect';
 import './App.css';
 import Home from "./pages/Home";
 
