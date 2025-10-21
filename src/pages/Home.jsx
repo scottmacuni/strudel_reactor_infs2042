@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import StrudelREPL from '../components/StrudelREPL';
 import { RiMusicAiFill } from "react-icons/ri"; // Insalled react-icons npm lib
 import GlobalOptions from '../components/GlobalOptions';
 import MidiPad from '../components/midipad/MidiPad';
 import Preprocessor from '../components/Preprocessor';
 import {stranger_tune} from "../lib/tunes";
+import { Proc } from '../lib/helpers';
 
 // Main home page rendered in App.tsx which structures the  React SPA
 function Home() {
@@ -34,15 +35,16 @@ function Home() {
       setInstrumentStates(currentState => ({...currentState, [id]: state}));
     }
 
-    // TODO: remove only for testing state change
-    useEffect(() =>{
-      console.log("states: ", instrumentStates);
-    }, [instrumentStates])
-
     // State toggles
     const togglePlay = (state) => {
         console.log("Play state change: ", state)
         setIsPlaying(state);
+    }
+
+    // Processes text to handle custom prefixes before setting to REPL
+    function proc(preProcText, states=instrumentStates){
+      console.log("proc... ", states);
+      return Proc(preProcText, states);
     }
 
   return (
@@ -76,6 +78,8 @@ function Home() {
             <StrudelREPL
               isPlaying={isPlaying} 
               procText={procText}
+              instrumentStates={instrumentStates}
+              proc={proc}
             />
           </div>
 

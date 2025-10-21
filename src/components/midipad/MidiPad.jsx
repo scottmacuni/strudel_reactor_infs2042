@@ -67,7 +67,9 @@ function MidiPad({
     <div className='bg-dark h-full w-full'>
         <div className="row">
           <div className='col-3'>
-            <div className='mt-2 mb-2 container'>
+            <div className='mt-2 mb-2 container text-center'>
+              
+              <label className='text-md text-default-white mb-2'>REPL Instruments</label>
               {/* Link radio buttons to global state by id ref */}
               {[1, 2, 3, 4].map(id => (
                 <MuteRadioBtn
@@ -83,7 +85,7 @@ function MidiPad({
             <div className='midi-controls'>
               <div className='midi-control-options mt-2'>
                 <label className='text-md text-default-white w-1-3 mb-1'>Midi Pad Mode:</label>
-                <label className='text-md text-default-white w-1-3 mb-1 ml-2' >Tempo CPM: {tempo.toString()}</label>
+                <label className='text-md text-default-white w-1-3 mb-1 ml-4' >Tempo CPM: {tempo.toString()}</label>
               </div>
               <div className='midi-control-options'>
                 <select 

@@ -25,12 +25,9 @@ function Preprocessor({
     setLocalTextBuf(e.target.value);
   }
 
-  // Handle save to main state
+  // Handle save to main global state
   const handleSaveState = () => {
-    // Save if changes made
-    if(localTextBuf.trim() !== procText.trim()) {
-      setProcText(localTextBuf);
-    }
+    setProcText(localTextBuf);
     onClose();
   }
 

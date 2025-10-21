@@ -28,6 +28,8 @@ const handleD3Data = (event) => {
 function StrudelREPL({
     isPlaying,
     procText,
+    instrumentStates,
+    proc
 }) {
     const hasRun = useRef(false);
     const [repl, setRepl] = useState(null);
@@ -85,18 +87,24 @@ useEffect(() => {
             ]);
           },
         });
-        strudelRepl.setCode(procText);
+        strudelRepl.setCode(proc(procText));
         setRepl(strudelRepl);
         // TODO: re-integrate proc Proc()
     }
   }, []);
 
-  // Handle proc text change
+  // Handle proc text change, or instrument state change
   useEffect(() => {
     if(repl){
-      repl.setCode(procText);
+      console.log("change proc text received, setting in REPL")
+      repl.setCode(proc(procText)); // set REPL code to processed text
+
+      // If playing, reevaluate to apply changes
+      if(isPlaying){
+        repl.evaluate()
+      }
     }
-  }, [procText]);
+  }, [procText, instrumentStates]);
 
   return (
     <div>

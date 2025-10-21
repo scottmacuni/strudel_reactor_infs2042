@@ -15,37 +15,39 @@
   )
 } */
 
-export const prefixes = [
+/* export const prefixes = [
     "<radio>"
-]
+] */
 
-export function ProcAndPlay() {
+/* export function ProcAndPlay() {
   if (globalEditor != null && globalEditor.repl.state.started == true) {
     console.log(globalEditor)
     Proc()
     globalEditor.evaluate();
   }
-}
+} */
 
 
-export function Proc(proc_text) {
-  let proc_text_replaced = proc_text.replaceAll('<p1_Radio>', ProcessText);
-  ProcessText(proc_text);
-  globalEditor.setCode(proc_text_replaced)
+export function Proc(pre_proc_text, instrumentStates) {
+  let proc_text = pre_proc_text
+  Object.entries(instrumentStates).forEach(([id, state]) => {
+    proc_text = handleMuteState(proc_text, id, state)
+  })
+  return proc_text
 }
 
 // Replaces instrument prefix with _ or blank on process
-function muteInstrument(text, instrumentId, mute) {
+function handleMuteState(text, instrumentId, muteState) {
     let proc_text_replaced = text
-    if(mute){
-        proc_text_replaced.replaceAll(`<${instrumentId}_radio>`, "_");
+    if(muteState){
+        proc_text_replaced = proc_text_replaced.replaceAll(`<${instrumentId}_radio>`, "_");
     } else {
-        proc_text_replaced.replaceAll(`<${instrumentId}_radio>`, "");
+        proc_text_replaced = proc_text_replaced.replaceAll(`<${instrumentId}_radio>`, "");
     }
     return proc_text_replaced
 }
 
-export function ProcessText(match, ...args) {
+/* export function ProcessText(match, ...args) {
 
   let replace = ""
   if (document.getElementById('flexRadioDefault2').checked) {
@@ -53,4 +55,4 @@ export function ProcessText(match, ...args) {
   }
 
   return replace
-}
+} */
