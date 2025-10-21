@@ -3,23 +3,24 @@ import { AiFillSound } from "react-icons/ai";
 import { IoVolumeMute } from "react-icons/io5";
 
 // Acts as a intrument radio on/off state button
-function MuteRadioBtn({instrumentId}) {
-
-    const [muted, setMuted] = useState(false)
+function MuteRadioBtn({
+  instrumentId,                  
+  isMuted,
+  muteInstrument 
+}) {
   return (
-    <div className='justify-cnter text-center'>
-    <p className='text-lg text-default-white text-roboto mb-0'>{instrumentId}</p>
+    <div className='text-center mb-2'>
+    <p className='text-lg text-accent text-audiowide mb-1'>{instrumentId.toString()}</p>
      <div className="switch-container d-inline-flex border rounded-pill overflow-hidden">
       <label className="flex-fill text-center m-0">
         <input
           type="radio"
           name="switch"
-          value="on"
-          checked={!muted}
-          onChange={() => setMuted(false)}
+          checked={!isMuted}
+          onChange={() => muteInstrument(instrumentId, false)}
           className="d-none"
         />
-        <span className={`switch-option ${!muted ? "active" : ""}`}>
+        <span className={`switch-option ${!isMuted ? "active" : ""}`}>
             <AiFillSound size={20} />
         </span>
       </label>
@@ -28,19 +29,27 @@ function MuteRadioBtn({instrumentId}) {
         <input
           type="radio"
           name="switch"
-          value="off"
-          checked={muted}
-          onChange={() => setMuted(true)}
+          checked={isMuted}
+          onChange={() => muteInstrument(instrumentId, true)}
           className="d-none"
         />
-        <span className={`switch-option ${muted ? "active" : ""}`}>
+        <span className={`switch-option ${isMuted ? "active" : ""}`}>
             <IoVolumeMute  size={20}/>
         </span>
       </label>
     </div>
-    
+    <div className='w-80 m-auto mt-2'>
+     <input 
+      type='range' 
+      className='form-range'
+      defaultValue={50}
+      min={0} 
+      max={100}
+      onChange={(e) => console.log(e.target.value)}
+    />     
     </div>
-     )
+    </div>
+  )
 }
 
 export default MuteRadioBtn

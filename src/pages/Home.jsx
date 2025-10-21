@@ -10,10 +10,34 @@ import {stranger_tune} from "../lib/tunes";
 function Home() {
 
     // Global states
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [showProcessor, setShowProcessor] = useState(false);
-    const [procText, setProcText] = useState(stranger_tune)
+    const [isPlaying, setIsPlaying] = useState(false);  // main REPL is playing
+    const [showProcessor, setShowProcessor] = useState(false);  // pop-up shown
+    const [procText, setProcText] = useState(stranger_tune);  // current text shared between proc and repl
 
+    // Instrument states on/off based on radio button selection in MidiPad -> MuteRadioBtn
+    // False is default state and indicates not muted
+    const [instrumentStates, setInstrumentStates] = useState({
+      1: false,
+      2: false,
+      3: false,
+      4: false
+    });
+
+    // Gets the states used in the Proc function to mute or allow
+    const getInstrumentState = () => {
+      return instrumentStates
+    }
+
+    // Updates a single instrument state based on id from child componets
+    const updateInstrumentState = (id, state) => {
+      console.log("changing: ", id, " to: ", state)
+      setInstrumentStates(currentState => ({...currentState, [id]: state}));
+    }
+
+    // TODO: remove only for testing state change
+    useEffect(() =>{
+      console.log("states: ", instrumentStates);
+    }, [instrumentStates])
 
     // State toggles
     const togglePlay = (state) => {
@@ -57,7 +81,10 @@ function Home() {
 
           {/* Right Panel MidiPad */}
           <div className="midi-panel">
-            <MidiPad />
+            <MidiPad
+              instrumentStates={instrumentStates}
+              updateInstrumentState={updateInstrumentState}
+            />
           </div>
         </div>
       </main>

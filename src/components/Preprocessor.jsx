@@ -40,20 +40,22 @@ function Preprocessor({
   return (
     <div className="preprocessor-dialog">
       <div className="preprocessor-content">
-        <div className="d-flex justify-content-between align-items-center mb-2">
-          <h4 className="m-0">Pre-Processor</h4>
+        <div className="d-flex justify-content-between align-items-center mb-1">
+          <h4 className="text-xl text-roboto text-default-white"><b>Pre-Processor</b></h4>
           <div>
-              <button className='btn btn-outline-secondary mr-2' onClick={handleSaveState}>
-                Save <FaRegSave size={14} />
+              <button className='btn btn-outline-success mr-2' onClick={handleSaveState}>
+                <span className='text-default-white'>
+                  Save <FaRegSave size={14} />
+                </span>
               </button>
-             <button className="btn btn-outline-secondary" onClick={onClose}>
+             <button className="btn btn-outline-danger ml-2" onClick={onClose}>
               <IoCloseSharp size={14} />
             </button>           
           </div>
         </div>
         <div>
-          <p className='text-lg'>View and edit the raw pre-processor code manually</p>
-          <textarea value={localTextBuf} onChange={handleLocalTextChange} className="form-control" rows="12" id="proc" ></textarea>
+          <p className='text-lg text-default-white text-roboto'>View and edit the raw pre-processor code</p>
+          <textarea value={localTextBuf} onChange={handleLocalTextChange} className="form-control" rows="15" id="proc" ></textarea>
         </div>
       </div>
     </div>

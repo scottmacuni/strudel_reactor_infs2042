@@ -6,14 +6,18 @@ import { FaCircleStop } from "react-icons/fa6";
 
 // The midi pad controller component left of the Strudel REPL
 // Allows for single sounds to be played with the midi pad outside of the REPL code
-function MidiPad() {
+function MidiPad({
+  instrumentStates,
+  updateInstrumentState
+}) {
   const [soundsInit, setSoundsInit] = useState(false)
   const [tempo, setTempo] = useState(60)
   const [isLooping, setIsLooping] = useState(false)
   const [mode, setMode] = useState("single")
   const [loopedSounds, setLoopedSounds] = useState([])
   
-    useEffect(() => {
+  // Init strudel and fetch samples
+  useEffect(() => {
      initStrudel({
         prebake: () => samples('github:tidalcycles/dirt-samples'),
       });
@@ -58,17 +62,21 @@ function MidiPad() {
     setLoopedSounds([]) // clear pattern
     setIsLooping(false) // change state
   }
-  
 
   return (
     <div className='bg-dark h-full w-full'>
         <div className="row">
           <div className='col-3'>
             <div className='mt-2 mb-2 container'>
-              <MuteRadioBtn instrumentId={"drums"} /><br/>
-              <MuteRadioBtn instrumentId={"guitar"} /><br/>
-              <input type='range'></input>
-              <input type='range'></input>
+              {/* Link radio buttons to global state by id ref */}
+              {[1, 2, 3, 4].map(id => (
+                <MuteRadioBtn
+                  key={id}
+                  instrumentId={id}
+                  isMuted={instrumentStates[id]}
+                  muteInstrument={updateInstrumentState} 
+                />
+              ))}
             </div>
           </div>
           <div className="col">
@@ -92,8 +100,8 @@ function MidiPad() {
                   type='range' 
                   className='form-range mt-1'
                   defaultValue={60}
-                  min={40} 
-                  max={240}
+                  min={10} 
+                  max={200}
                   onChange={(e) => setTempo(e.target.value)}
                 />
                 <button disabled={!isLooping} className='btn btn-outline-danger' onClick={stopSounds}><FaCircleStop size={20}/></button>
