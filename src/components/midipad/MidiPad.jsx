@@ -1,9 +1,65 @@
+import { useState, useEffect } from 'react'
 import MidiGrid from './MidiGrid'
 import MuteRadioBtn from './MuteRadioBtn'
+import {initStrudel, samples, s, hush, evaluate, fast, take, play, stop}  from "@strudel/web"
+import { FaCircleStop } from "react-icons/fa6";
 
 // The midi pad controller component left of the Strudel REPL
 // Allows for single sounds to be played with the midi pad outside of the REPL code
 function MidiPad() {
+  const [soundsInit, setSoundsInit] = useState(false)
+  const [tempo, setTempo] = useState(60)
+  const [isLooping, setIsLooping] = useState(false)
+  const [mode, setMode] = useState("single")
+  const [loopedSounds, setLoopedSounds] = useState([])
+  
+    useEffect(() => {
+     initStrudel({
+        prebake: () => samples('github:tidalcycles/dirt-samples'),
+      });
+      setSoundsInit(true)
+  }, [])
+
+  function playSound(abbvr) {
+    if(mode === "single"){
+      playSoundSingle(abbvr)
+    } else {
+      // Add to looped sounds to dynamically build patters
+      setLoopedSounds((prev) => {
+        const updated = [...prev, abbvr];
+        playSoundLoop(updated); // pass the updated array directly due to React async update
+        return updated;
+      });
+      setIsLooping(true);
+    }}
+
+  function playSoundSingle(abbvr) {
+    console.log("playing single: ", abbvr);
+    const sound = s(`${abbvr}`).play();
+    setTimeout(() => {
+      if(sound){
+        hush()
+      }
+    }
+    , 100)
+  }
+
+  function playSoundLoop(sounds){
+    console.log("playing loop: ", sounds);
+    const pattern = sounds.join(" ");
+    evaluate(`
+      setcpm(${tempo})
+      s("${pattern}")       
+    `)
+  }
+
+  function stopSounds(){
+    hush()  // mute all
+    setLoopedSounds([]) // clear pattern
+    setIsLooping(false) // change state
+  }
+  
+
   return (
     <div className='bg-dark h-full w-full'>
         <div className="row">
@@ -13,29 +69,41 @@ function MidiPad() {
               <MuteRadioBtn instrumentId={"guitar"} /><br/>
               <input type='range'></input>
               <input type='range'></input>
-              <input type='range'></input>
             </div>
           </div>
           <div className="col">
             <div className='midi-controls'>
               <div className='midi-control-options mt-2'>
-                <label for="mode-select" className='text-md text-default-white w-1-2 mb-1'>Midi Pad Mode:</label>
-                <label for="speed-select" className='text-md text-default-white w-1-2 mb-1' >Playback speed:</label>
+                <label className='text-md text-default-white w-1-3 mb-1'>Midi Pad Mode:</label>
+                <label className='text-md text-default-white w-1-3 mb-1 ml-2' >Tempo CPM: {tempo.toString()}</label>
               </div>
               <div className='midi-control-options'>
-                <select name='mode-select' className='form-control'>
+                <select 
+                  value={mode} 
+                  id='mode-select' 
+                  className='form-control'
+                  onChange={(e) => setMode(e.target.value)}
+                >
                   <option value="single">Single Beat</option>
                   <option value="loop">Loop</option>
                 </select>
-                <select name='speed-select' className='form-control'>
-                  <option value="single">Single Beat</option>
-                  <option value="loop">Loop</option>
-                </select>
+                <input 
+                  id='tempo-select' 
+                  type='range' 
+                  className='form-range mt-1'
+                  defaultValue={60}
+                  min={40} 
+                  max={240}
+                  onChange={(e) => setTempo(e.target.value)}
+                />
+                <button disabled={!isLooping} className='btn btn-outline-danger' onClick={stopSounds}><FaCircleStop size={20}/></button>
               </div>
 
             </div>
             <div className='midi-btn-container bg-dark p-2'>
-              <MidiGrid />
+              <MidiGrid
+                playSound={playSound}
+              />
             </div>
           </div>
         </div>

@@ -1,30 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import MidiGridButton from './MidiGridButton'
-import {initStrudel, samples, s, hush, take, play, stop}  from "@strudel/web"
 import { midipadInstruments } from '../../lib/instruments'
 
-function MidiGrid() {
-  const [soundsInit, setSoundsInit] = useState(false)
-  const [instruments, setInstruments] = useState(midipadInstruments)
-
-  useEffect(() => {
-     initStrudel({
-        prebake: () => samples('github:tidalcycles/dirt-samples'),
-      });
-      setSoundsInit(true)
-  }, [])
-
-  function playSoundSingle(abbvr) {
-    console.log("playing: ", abbvr);
-    const sound = s(`${abbvr}`).play();
-    setTimeout(() => {
-      if(sound){
-        hush()
-      }
-    }
-    , 100)
-  }
-
+function MidiGrid({
+  playSound
+}) {
+  const instruments = midipadInstruments;
 
   return (
     <div className='w-full container'>
@@ -34,7 +14,7 @@ function MidiGrid() {
         <MidiGridButton
           idx={idx}
           label={instrument.label}
-          playSound={playSoundSingle}
+          playSound={playSound}
           sound={instrument.abbvr}
         />
         </div>

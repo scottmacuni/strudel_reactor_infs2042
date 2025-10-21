@@ -22,7 +22,7 @@ import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, webaudioOutput, registerSynthSounds } from '@strudel/webaudio';
 
 const handleD3Data = (event) => {
-    console.log(event.detail);
+    console.log("d3 data: ", event.detail);
 };
 
 function StrudelREPL({
@@ -47,7 +47,6 @@ function StrudelREPL({
   
   // Instantiate REPL mirror
 useEffect(() => {
-
     if (!hasRun.current) {
       
       document.addEventListener("d3Data", handleD3Data);
@@ -62,7 +61,7 @@ useEffect(() => {
       const drawContext = canvas.getContext('2d');
       const drawTime = [-2, 2]; // time window of drawn haps
       
-        let strudelRepl = new StrudelMirror({
+      let strudelRepl = new StrudelMirror({
           defaultOutput: webaudioOutput,
           getTime: () => getAudioContext().currentTime,
           transpiler,
@@ -89,8 +88,6 @@ useEffect(() => {
         strudelRepl.setCode(procText);
         setRepl(strudelRepl);
         // TODO: re-integrate proc Proc()
-      //document.getElementById('proc').value = stranger_tune
-      //SetupButtons()
     }
   }, []);
 
@@ -104,9 +101,7 @@ useEffect(() => {
   return (
     <div>
       <div id="editor" />
-      
       <canvas id="roll"></canvas>
-
     </div>
   )
 }
