@@ -15,6 +15,8 @@
   )
 } */
 
+import { lpf } from "@strudel/core"
+
 /* export const prefixes = [
     "<radio>"
 ] */
@@ -28,11 +30,22 @@
 } */
 
 
-export function Proc(pre_proc_text, instrumentStates) {
+export function Proc(pre_proc_text, settings) {
   let proc_text = pre_proc_text
-  Object.entries(instrumentStates).forEach(([id, state]) => {
-    proc_text = handleMuteState(proc_text, id, state)
-  })
+  if(settings){
+    const instrumentStates = settings["states"]
+    Object.entries(instrumentStates).forEach(([id, state]) => {
+      proc_text = handleMuteState(proc_text, id, state)
+    })
+
+    
+    const lpfSettings = settings["lpf"]
+    Object.entries(lpfSettings).forEach(([id, lpf]) => {
+      proc_text = handleMuteState(proc_text, id, lpf)
+    })
+    
+  }
+
   return proc_text
 }
 
@@ -44,6 +57,13 @@ function handleMuteState(text, instrumentId, muteState) {
     } else {
         proc_text_replaced = proc_text_replaced.replaceAll(`<${instrumentId}_radio>`, "");
     }
+    return proc_text_replaced
+}
+
+// Replaces instrument prefix with _ or blank on process
+function handleLPFSettings(text, instrumentId, lpf) {
+    let proc_text_replaced = text
+    proc_text_replaced = proc_text_replaced.replaceAll(`<${instrumentId}_lpf>`, lpf);
     return proc_text_replaced
 }
 

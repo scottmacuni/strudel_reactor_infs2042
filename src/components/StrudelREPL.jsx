@@ -29,6 +29,7 @@ function StrudelREPL({
     isPlaying,
     procText,
     instrumentStates,
+    instrumentLPF,
     proc
 }) {
     const hasRun = useRef(false);
@@ -104,7 +105,7 @@ useEffect(() => {
         repl.evaluate()
       }
     }
-  }, [procText, instrumentStates]);
+  }, [procText, instrumentStates, instrumentLPF]);
 
   return (
     <div>

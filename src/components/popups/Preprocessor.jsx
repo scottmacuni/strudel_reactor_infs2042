@@ -4,7 +4,6 @@ import { FaRegSave } from "react-icons/fa";
 
 // Pre-processor allowing you to add custom strudel code to trigger changes
 // Hidden by default but acts as a pop-up if the user wants to see the pre-processed code and edit manually
-// User react-dom createPortal to explicitly render above the HTML body as this is pop-up behaviour
 function Preprocessor({ 
   isOpen, 
   onClose, 
@@ -35,8 +34,8 @@ function Preprocessor({
   if (!isOpen) return null;
 
   return (
-    <div className="preprocessor-dialog">
-      <div className="preprocessor-content">
+    <div className="popup">
+      <div className="popup-content">
         <div className="d-flex justify-content-between align-items-center mb-1">
           <h4 className="text-xl text-roboto text-default-white"><b>Pre-Processor</b></h4>
           <div>

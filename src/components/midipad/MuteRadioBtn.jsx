@@ -6,7 +6,9 @@ import { IoVolumeMute } from "react-icons/io5";
 function MuteRadioBtn({
   instrumentId,                  
   isMuted,
-  muteInstrument 
+  muteInstrument ,
+  LPF,
+  updateLPF,
 }) {
   return (
     <div className='text-center mb-2'>
@@ -38,14 +40,15 @@ function MuteRadioBtn({
         </span>
       </label>
     </div>
-    <div className='w-80 m-auto mt-2'>
+    <div className='w-3-4 m-auto mt-2 flex'>
+      <label className='text-md text-default-white mt-2 mr-2 '>LPF: </label>
      <input 
-      type='range' 
-      className='form-range'
-      defaultValue={50}
-      min={0} 
-      max={100}
-      onChange={(e) => console.log(e.target.value)}
+      type='number' 
+      className='lpf-input ml-2 mt-1 bg-dark text-default-white'
+      defaultValue={LPF}
+      min={0}
+      max={8000}
+      onChange={(e) => updateLPF(instrumentId, e.target.value)}
     />     
     </div>
     </div>

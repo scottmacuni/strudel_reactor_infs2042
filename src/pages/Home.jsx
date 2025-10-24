@@ -3,16 +3,18 @@ import StrudelREPL from '../components/StrudelREPL';
 import { RiMusicAiFill } from "react-icons/ri"; // Insalled react-icons npm lib
 import GlobalOptions from '../components/GlobalOptions';
 import MidiPad from '../components/midipad/MidiPad';
-import Preprocessor from '../components/Preprocessor';
+import Preprocessor from '../components/popups/Preprocessor';
 import {stranger_tune} from "../lib/tunes";
 import { Proc } from '../lib/helpers';
+import InstrumentAdvancedSettings from '../components/popups/InstrumentAdvancedSettings';
 
 // Main home page rendered in App.tsx which structures the  React SPA
 function Home() {
 
     // Global states
     const [isPlaying, setIsPlaying] = useState(false);  // main REPL is playing
-    const [showProcessor, setShowProcessor] = useState(false);  // pop-up shown
+    const [showProcessor, setShowProcessor] = useState(false);  // processor pop-up shown
+    const [showAdvancedSettings, setShowAdvancedSettings] = useState(false) // setting pop-up shown
     const [procText, setProcText] = useState(stranger_tune);  // current text shared between proc and repl
 
     // Instrument states on/off based on radio button selection in MidiPad -> MuteRadioBtn
@@ -23,16 +25,32 @@ function Home() {
       3: false,
       4: false
     });
+  
+    const [instrumentLPF, setInstrumentLPF] = useState({
+      1: 700,
+      2: 300,
+      3: 7000,
+      4: 1000
+    });
 
-    // Gets the states used in the Proc function to mute or allow
-    const getInstrumentState = () => {
-      return instrumentStates
+    // Gets the settings used in the Proc function to mute or allow
+    const getInstrumentSettings = () => {
+      const settings = {
+        "states": instrumentStates,
+        "lpf": instrumentLPF 
+      }
+      return settings
     }
 
     // Updates a single instrument state based on id from child componets
     const updateInstrumentState = (id, state) => {
-      console.log("changing: ", id, " to: ", state)
       setInstrumentStates(currentState => ({...currentState, [id]: state}));
+    }
+
+    // Updates a single instrument state based on id from child componets
+    const updateInstrumentLPF = (id, lpf) => {
+      console.log("instrument LPF change: ", id, lpf)
+      setInstrumentLPF(currentLPF => ({...currentLPF, [id]: lpf}));
     }
 
     // State toggles
@@ -42,9 +60,9 @@ function Home() {
     }
 
     // Processes text to handle custom prefixes before setting to REPL
-    function proc(preProcText, states=instrumentStates){
-      console.log("proc... ", states);
-      return Proc(preProcText, states);
+    function proc(preProcText, settings=getInstrumentSettings()){
+      console.log("proc... ", settings);
+      return Proc(preProcText, settings);
     }
 
   return (
@@ -56,6 +74,13 @@ function Home() {
         procText={procText}
         setProcText={setProcText}
       />
+      
+      {/* Advanced settings hidden but opens as a popup dialog */}
+      <InstrumentAdvancedSettings 
+        isOpen={showAdvancedSettings} 
+        onClose={() => setShowAdvancedSettings(false)}
+      />
+
       {/* Header */}
       <header className="w-full d-flex flex-row text-left text-audiowide bg-dark p-2 fixed-top">
         <h1 className="text-accent ms-2">Strudel Reactor</h1>
@@ -69,6 +94,7 @@ function Home() {
             isPlaying={isPlaying} 
             togglePlayState={togglePlay}
             showProcessor={setShowProcessor}
+            showAdvancedSettings={setShowAdvancedSettings}
           />
         </div>
 
@@ -79,6 +105,7 @@ function Home() {
               isPlaying={isPlaying} 
               procText={procText}
               instrumentStates={instrumentStates}
+              instrumentLPF={instrumentLPF}
               proc={proc}
             />
           </div>
@@ -88,6 +115,8 @@ function Home() {
             <MidiPad
               instrumentStates={instrumentStates}
               updateInstrumentState={updateInstrumentState}
+              instrumentLPF={instrumentLPF}
+              updateInstrumentLPF={updateInstrumentLPF}
             />
           </div>
         </div>

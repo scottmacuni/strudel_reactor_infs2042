@@ -8,7 +8,9 @@ import { FaCircleStop } from "react-icons/fa6";
 // Allows for single sounds to be played with the midi pad outside of the REPL code
 function MidiPad({
   instrumentStates,
-  updateInstrumentState
+  updateInstrumentState,
+  instrumentLPF,
+  updateInstrumentLPF
 }) {
   const [soundsInit, setSoundsInit] = useState(false)
   const [tempo, setTempo] = useState(60)
@@ -76,7 +78,9 @@ function MidiPad({
                   key={id}
                   instrumentId={id}
                   isMuted={instrumentStates[id]}
-                  muteInstrument={updateInstrumentState} 
+                  muteInstrument={updateInstrumentState}
+                  LPF={instrumentLPF[id]}
+                  updateLPF={updateInstrumentLPF} 
                 />
               ))}
             </div>
@@ -103,7 +107,7 @@ function MidiPad({
                   className='form-range mt-1'
                   defaultValue={60}
                   min={10} 
-                  max={200}
+                  max={180}
                   onChange={(e) => setTempo(e.target.value)}
                 />
                 <button disabled={!isLooping} className='btn btn-outline-danger' onClick={stopSounds}><FaCircleStop size={20}/></button>

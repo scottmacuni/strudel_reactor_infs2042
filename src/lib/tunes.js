@@ -45,7 +45,7 @@ note(pick(basslines, bass))
 .sound("supersaw")
 .postgain(2)
 .room(0.6)
-.lpf(700)
+.lpf(<1_lpf>)
 .room(0.4)
 .postgain(pick(gain_patterns, pattern))
 
@@ -53,7 +53,7 @@ note(pick(basslines, bass))
 <2_radio>main_arp: 
 note(pick(arpeggiator1, "<0 1 2 3>/2"))
 .sound("supersaw")
-.lpf(300)
+.lpf(<2_lpf>)
 .adsr("0:0:.5:.1")
 .room(0.6)
 .lpenv(3.3)
@@ -69,7 +69,7 @@ stack(
   .struct(pick(drum_structure, pattern)),
 
   s("sh").struct("[x!3 ~!2 x!10 ~]")
-  .postgain(0.5).lpf(7000)
+  .postgain(0.5).lpf(<3_lpf>)
   .bank("RolandTR808")
   .speed(0.8).jux(rev).room(sine.range(0.1,0.4)).gain(0.6),
 
@@ -90,7 +90,7 @@ stack(
   s("[psr:[2|5|6|7|8|9|12|24|25]*16]?0.1")
   .gain(0.1)
   .postgain(pick(gain_patterns, pattern))
-  .hpf(1000)
+  .lpf(<4_lpf>)
   .speed(0.5)
   .rarely(jux(rev)),
 )
