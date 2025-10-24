@@ -1,8 +1,20 @@
 import { useState, useEffect } from 'react'
 import MidiGrid from './MidiGrid'
 import MuteRadioBtn from './MuteRadioBtn'
-import {initStrudel, samples, s, hush, evaluate, IoVolumeMute, lpf}  from "@strudel/web"
+import {initStrudel, samples, s, hush, evaluate}  from "@strudel/web"
 import { FaCircleStop } from "react-icons/fa6";
+
+// TODO: see if you can get this to work
+/*   function cacheSamples() {
+    console.log("prefetching midi samples... ")
+    evaluate(`
+      s("bd sd hh cp cr ht mt lt cb perc supersaw sawtooth").hush()   
+    `)
+      setTimeout(() =>{ 
+          hush()
+      }
+      , 50) 
+  } */
 
 // The midi pad controller component left of the Strudel REPL
 // Allows for single sounds to be played with the midi pad outside of the REPL code
@@ -12,46 +24,65 @@ function MidiPad({
   instrumentLPF,
   updateInstrumentLPF
 }) {
-  const [soundsInit, setSoundsInit] = useState(false)
-  const [tempo, setTempo] = useState(60)
-  const [isLooping, setIsLooping] = useState(false)
-  const [mode, setMode] = useState("single")
-  const [loopedSounds, setLoopedSounds] = useState([])
+  const [soundsInit, setSoundsInit] = useState(false) // sounds fetched and strudel loaded
+  const [tempo, setTempo] = useState(60)  // CPM tempo
+  const [isLooping, setIsLooping] = useState(false) // if sound should be looping
+  const [mode, setMode] = useState("single")  // single beat or looped beat mode for midi pad
   
-  // Fetch all the midi pad samples to prevent load time on first press
-  function cacheSamples() {
-    console.log("fetching samples... ")
-    evaluate(`
-      s("bd sd hh cp cr ht mt lt cb perc supersaw sawtooth").lpf(0)
-    `)
-    setTimeout(() =>{ 
-          hush()
-    }
-    , 50) 
-  }
+  // Sound states for looped beat construction
+  const [layers, setLayers] = useState(["", "", ""]); // different sound loop layers to play simultaneously
+  const [currentLayer, setCurrentLayer] = useState(0);  // the current layer being edited
+
   // Init strudel and fetch samples
   useEffect(() => {
      initStrudel({
         prebake: () => samples('github:tidalcycles/dirt-samples'),
       });
-      cacheSamples()
+      // cacheSamples()
       setSoundsInit(true)
 
   }, [])
 
+  // Play the sound loop when a new layer is modified
+  useEffect(() => {
+    console.log("layers updated, playing sound loop..")
+    playSoundLoop()
+  }, [layers])
+
+  // Appends a sound to the current layer selected
+  function addSoundToLayer(abbvr) {
+    // Update state
+    setLayers(prev => {
+      const currentPattern = layers[currentLayer] // get current layer pattern
+      let newPattern;
+
+      // If existing pattern to append to end
+      if(currentPattern){
+        newPattern = `${currentPattern.trim()} ${abbvr.trim()}` // append sound
+      } else {
+        // else the pattern is simply the new sound
+        newPattern = abbvr.trim()
+      }
+
+      const updatedLayers = [...prev] // reference to update
+      updatedLayers[currentLayer] = newPattern // update reference to new pattern
+      return updatedLayers  // return the update state
+    })
+  }
+
+  // Triggered by midi pad buttons
   function playSound(abbvr) {
+
+    // Single sound mode
     if(mode === "single"){
       playSoundSingle(abbvr)
     } else {
-      // Add to looped sounds to dynamically build patters
-      setLoopedSounds((prev) => {
-        const updated = [...prev, abbvr];
-        playSoundLoop(updated); // pass the updated array directly due to React async update
-        return updated;
-      });
+      // Add to looped sounds to dynamically build patterns in the 3 layers
+      addSoundToLayer(abbvr)
       setIsLooping(true);
     }}
-
+  
+  // Single sound emit followed by hush
   function playSoundSingle(abbvr) {
     console.log("playing single: ", abbvr);
     const sound = s(`${abbvr}`).play();
@@ -63,18 +94,31 @@ function MidiPad({
     , 100)
   }
 
-  function playSoundLoop(sounds){
-    console.log("playing loop: ", sounds);
-    const pattern = sounds.join(" ");
+  // Plays the layered sounds in a stacked pattern
+  function playSoundLoop(){
+    console.log("current layers: ", layers)
+    if (!layers) return;
+
+    
+    // For each sound layer, build the sound pattern for the evaluate method
+    const layersWithSounds = layers.filter(layer => layer.trim() !== "") // only get layers with sounds
+    if(!layersWithSounds || layersWithSounds.length === 0) return;  // validate
+
+    // First sound is just s(pattern), remaining are stacked .stack(s(pattern))
+    const soundPatterns = layersWithSounds.map((layer, idx) => (idx === 0 ? `s("${layer}")` : `.stack(s("${layer}"))`)).join("")
+    console.log("playing loop of layers:\n ", soundPatterns)
+
+    // Play
     evaluate(`
       setcpm(${tempo})
-      s("${pattern}")       
+      ${soundPatterns}
     `)
   }
 
+  // Stops all sounds and resets states
   function stopSounds(){
     hush()  // mute all
-    setLoopedSounds([]) // clear pattern
+    setLayers(["", "", ""]) // clear layers
     setIsLooping(false) // change state
   }
 
@@ -118,17 +162,17 @@ function MidiPad({
                   <option value="loop">Loop</option>
                 </select>
                 
-                {mode == "loop" && (
+                {mode === "loop" && (
                   <select 
                     id='layer-select' 
                     className='form-control'
-                    style={{width: "20%"}} 
-                    onChange={(e) => console.log("layer")}
+                    style={{width: "20%"}}
+                    value={currentLayer}
+                    onChange={(e) => setCurrentLayer(e.target.value)}
                   >
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
+                    <option value={0}>1</option>
+                    <option value={1}>2</option>
+                    <option value={2}>3</option>
                   </select>                  
                 )}
                 
@@ -156,24 +200,3 @@ function MidiPad({
 }
 
 export default MidiPad
-
-
-   {/*        <div className="row">
-            <div className="col-md-8">
-              <div id="editor" />
-            </div>
-            <div className="col-md-4">
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"  defaultChecked />
-                <label className="form-check-label" htmlFor="flexRadioDefault1">
-                  p1: ON
-                </label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"  />
-                <label className="form-check-label" htmlFor="flexRadioDefault2">
-                  p1: HUSH
-                </label>
-              </div>
-            </div>
-          </div> */}
