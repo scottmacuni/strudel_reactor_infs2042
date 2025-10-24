@@ -51,7 +51,7 @@ function Preprocessor({
         </div>
         <div>
           <p className='text-lg text-default-white text-roboto'>View and edit the raw pre-processor code</p>
-          <textarea value={localTextBuf} onChange={handleLocalTextChange} className="form-control" rows="15" id="proc" ></textarea>
+          <textarea value={localTextBuf} onChange={handleLocalTextChange} className="form-control bg-dark" style={{color: "white"}} rows="15" id="proc" ></textarea>
         </div>
       </div>
     </div>
