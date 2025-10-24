@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import MidiGrid from './MidiGrid'
 import MuteRadioBtn from './MuteRadioBtn'
-import {initStrudel, samples, s, hush, evaluate, fast, take, play, stop}  from "@strudel/web"
+import {initStrudel, samples, s, hush, evaluate, IoVolumeMute, lpf}  from "@strudel/web"
 import { FaCircleStop } from "react-icons/fa6";
 
 // The midi pad controller component left of the Strudel REPL
@@ -18,12 +18,25 @@ function MidiPad({
   const [mode, setMode] = useState("single")
   const [loopedSounds, setLoopedSounds] = useState([])
   
+  // Fetch all the midi pad samples to prevent load time on first press
+  function cacheSamples() {
+    console.log("fetching samples... ")
+    evaluate(`
+      s("bd sd hh cp cr ht mt lt cb perc supersaw sawtooth").lpf(0)
+    `)
+    setTimeout(() =>{ 
+          hush()
+    }
+    , 50) 
+  }
   // Init strudel and fetch samples
   useEffect(() => {
      initStrudel({
         prebake: () => samples('github:tidalcycles/dirt-samples'),
       });
+      cacheSamples()
       setSoundsInit(true)
+
   }, [])
 
   function playSound(abbvr) {
@@ -88,19 +101,37 @@ function MidiPad({
           <div className="col">
             <div className='midi-controls'>
               <div className='midi-control-options mt-2'>
-                <label className='text-md text-default-white w-1-3 mb-1'>Midi Pad Mode:</label>
-                <label className='text-md text-default-white w-1-3 mb-1 ml-4' >Tempo CPM: {tempo.toString()}</label>
-              </div>
+                  <label className='text-md text-default-white mb-1'>Midi Pad Mode:</label>
+                  <label className='text-md text-default-white' >Tempo CPM: {tempo.toString()}</label>
+                  <label className='text-md text-default-white mr-3' >Stop</label>
+                </div>
               <div className='midi-control-options'>
+                
                 <select 
                   value={mode} 
                   id='mode-select' 
-                  className='form-control'
+                  className="form-control"
+                  style={{width: "50%"}} 
                   onChange={(e) => setMode(e.target.value)}
                 >
                   <option value="single">Single Beat</option>
                   <option value="loop">Loop</option>
                 </select>
+                
+                {mode == "loop" && (
+                  <select 
+                    id='layer-select' 
+                    className='form-control'
+                    style={{width: "20%"}} 
+                    onChange={(e) => console.log("layer")}
+                  >
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                  </select>                  
+                )}
+                
                 <input 
                   id='tempo-select' 
                   type='range' 
@@ -112,7 +143,6 @@ function MidiPad({
                 />
                 <button disabled={!isLooping} className='btn btn-outline-danger' onClick={stopSounds}><FaCircleStop size={20}/></button>
               </div>
-
             </div>
             <div className='midi-btn-container bg-dark p-2'>
               <MidiGrid
