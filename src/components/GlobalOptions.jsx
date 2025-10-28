@@ -3,6 +3,8 @@ import { FaCircleStop } from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
 import { LuDrum } from "react-icons/lu";
 import { BiReset } from "react-icons/bi";
+import { FaRegSave } from "react-icons/fa";
+import { FaFileDownload } from "react-icons/fa";
 
 // Contains global options for SPA, in a nav bar like design
 function GlobalOptions({
@@ -10,6 +12,8 @@ function GlobalOptions({
     togglePlayState,
     showProcessor,
     showAdvancedSettings,
+    showExportDialog,
+    showImportDialog,
     isLooping,
     setIsLooping,
     setLayers
@@ -34,12 +38,12 @@ function GlobalOptions({
       </div>
 
       <div className='flex flex-row gap-3 mr-100'>
-        <button className='btn' onClick={() => console.log("test")}><FaCircleStop size={20}/></button>
-        <button className='btn' onClick={() => console.log("test")}><FaCircleStop size={20}/></button>
-        <p className="text-xl ml-2 mr-2 text-audiowide text-default-black mt-1">MIDI PAD</p>
         <button disabled={isLooping} className='btn' onClick={() => setIsLooping(true)}><FaPlay size={20}/></button>
-        <button disabled={!isLooping} className='btn' onClick={() => setIsLooping(false)}><FaCircleStop size={20}/></button>
-        <button className='btn' onClick={() => stopLoopAndClear()}><BiReset size={24}/></button>
+        <button disabled={!isLooping} className='btn' onClick={() => setIsLooping(false)}><FaCircleStop size={20} /></button>
+        <button className='btn' onClick={() => stopLoopAndClear()}><BiReset size={24} /></button>
+        <p className="text-xl ml-2 mr-2 text-audiowide text-default-black mt-1">MIDI PAD</p>
+        <button className='btn' onClick={() => showExportDialog(true)}><FaRegSave size={24}/></button>
+        <button className='btn options-button' onClick={() => showImportDialog(true)}><FaFileDownload size={20}/></button>
       </div>
     </div>
   )

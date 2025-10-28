@@ -1,4 +1,6 @@
 
+export const LOCAL_STORAGE_SOUNDS_KEY = "savedSounds"
+
 export function Proc(pre_proc_text, settings) {
   let proc_text = pre_proc_text
   if(settings){

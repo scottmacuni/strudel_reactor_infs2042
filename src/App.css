@@ -1,5 +1,5 @@
 /* CSS utilities */
-/* Global SPA */
+/* Global */
 :root {
   --color-dark: #1e293b;
   --color-bg: #042940;        
@@ -37,7 +37,6 @@ body {
   height: 100vh;
   overflow: hidden;
 }
-
 
 /* Colour Helpers */
 .bg-dark { background-color: var(--color-dark);}
@@ -109,7 +108,6 @@ body {
 .text-xl { font-size: 24px; }
 .text-2xl { font-size: 32px; }
 .font-bold { font-weight: bold; }
-
 
 /* Width helpers */
 .w-full { width: 100%; }
@@ -268,6 +266,17 @@ footer.fixed-bottom {
   border: 3px solid var(--color-border);
   border-radius: 5px;
   padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  overflow-y: auto;
+}
+
+.popup-content-sm {
+  width: 30vw;
+  height: 40vh;
+  background: var(--color-dark);
+  border: 3px solid var(--color-border);
+  border-radius: 5px;
+  padding: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   overflow-y: auto;
 }

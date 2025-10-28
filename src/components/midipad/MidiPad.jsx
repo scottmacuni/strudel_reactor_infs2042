@@ -26,10 +26,11 @@ function MidiPad({
   isLooping,
   setIsLooping,
   layers,
-  setLayers
+  setLayers,
+  tempo, 
+  setTempo
 }) {
   const [soundsInit, setSoundsInit] = useState(false) // sounds fetched and strudel loaded
-  const [tempo, setTempo] = useState(60)  // CPM tempo
   const [mode, setMode] = useState("single")  // single beat or looped beat mode for midi pad
   
   // Sound states for looped beat construction

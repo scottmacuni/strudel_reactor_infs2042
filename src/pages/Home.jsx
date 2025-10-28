@@ -7,19 +7,26 @@ import Preprocessor from '../components/popups/Preprocessor';
 import {stranger_tune} from "../lib/tunes";
 import { Proc } from '../lib/helpers';
 import InstrumentAdvancedSettings from '../components/popups/InstrumentAdvancedSettings';
+import ExportDialog from '../components/popups/ExportDialog';
+import ImportDialog from '../components/popups/ImportDialog';
 
 // Main home page rendered in App.tsx which structures the  React SPA
 function Home() {
 
     // Global states
     const [isPlaying, setIsPlaying] = useState(false);  // main REPL is playing
-    const [showProcessor, setShowProcessor] = useState(false);  // processor pop-up shown
-    const [showAdvancedSettings, setShowAdvancedSettings] = useState(false) // setting pop-up shown
     const [procText, setProcText] = useState(stranger_tune);  // current text shared between proc and repl
 
-    
+    // Popup states
+    const [showProcessor, setShowProcessor] = useState(false);  // processor pop-up shown
+    const [showAdvancedSettings, setShowAdvancedSettings] = useState(false); // setting pop-up show
+    const [showExportDialog, setShowExport] = useState(false); // export midi pad loop pop-up show
+    const [showImportDialog, setShowImport] = useState(false); // import midi pad loop pop-up show
+
+    // Midi pad states
     const [isLooping, setIsLooping] = useState(false) // midi pad is looping sounds
     const [layers, setLayers] = useState(["", "", "", "", "", ""]); // different sound loop layers to play simultaneously
+    const [tempo, setTempo] = useState(60)  // CPM tempo
 
     // Instrument states on/off based on radio button selection in MidiPad -> MuteRadioBtn
     // False is default state and indicates not muted
@@ -84,6 +91,20 @@ function Home() {
         isOpen={showAdvancedSettings} 
         onClose={() => setShowAdvancedSettings(false)}
       />
+      
+      {/* Export and import dialogs to save to local storage */}
+      <ExportDialog
+        isOpen={showExportDialog}
+        onClose={() => setShowExport(false)}
+        currentLayers={layers}
+        currentTempo={tempo}
+      />
+
+      <ImportDialog
+        isOpen={showImportDialog}
+        onClose={() => setShowImport(false)}
+        setLayers={setLayers}
+      />
 
       {/* Header */}
       <header className="w-full d-flex flex-row text-left text-audiowide bg-dark p-2 fixed-top">
@@ -99,6 +120,8 @@ function Home() {
             togglePlayState={togglePlay}
             showProcessor={setShowProcessor}
             showAdvancedSettings={setShowAdvancedSettings}
+            showExportDialog={setShowExport}
+            showImportDialog={setShowImport}
             isLooping={isLooping}
             setIsLooping={setIsLooping}
             setLayers={setLayers}
@@ -128,6 +151,8 @@ function Home() {
               setIsLooping={setIsLooping}
               layers={layers}
               setLayers={setLayers}
+              tempo={tempo}
+              setTempo={setTempo}
             />
           </div>
         </div>
