@@ -140,6 +140,8 @@ body {
 .mr-40 {margin-right: 40px;}
 .ml-60 {margin-left: 60px;}
 .mr-60 {margin-right: 60px;}
+.ml-100 {margin-left: 100px;}
+.mr-100 {margin-right: 100px;}
 
 .m-auto {margin: 0 auto;}
 
@@ -210,7 +212,6 @@ body {
   display: flex;
   flex-direction: row;
   margin: 0 auto;
-  justify-content: space-between;
   gap: 20px;
 }
 

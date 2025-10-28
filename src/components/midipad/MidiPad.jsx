@@ -22,15 +22,17 @@ function MidiPad({
   instrumentStates,
   updateInstrumentState,
   instrumentLPF,
-  updateInstrumentLPF
+  updateInstrumentLPF,
+  isLooping,
+  setIsLooping,
+  layers,
+  setLayers
 }) {
   const [soundsInit, setSoundsInit] = useState(false) // sounds fetched and strudel loaded
   const [tempo, setTempo] = useState(60)  // CPM tempo
-  const [isLooping, setIsLooping] = useState(false) // if sound should be looping
   const [mode, setMode] = useState("single")  // single beat or looped beat mode for midi pad
   
   // Sound states for looped beat construction
-  const [layers, setLayers] = useState(["", "", ""]); // different sound loop layers to play simultaneously
   const [currentLayer, setCurrentLayer] = useState(0);  // the current layer being edited
 
   // Init strudel and fetch samples
@@ -48,6 +50,15 @@ function MidiPad({
     console.log("layers updated, playing sound loop..")
     playSoundLoop()
   }, [layers])
+
+  // Plays or stops sounds based on loop state
+  useEffect(() => {
+    if(isLooping){
+      playSoundLoop()
+    } else {
+      stopSounds()
+    }
+  }, [isLooping])
 
   // Appends a sound to the current layer selected
   function addSoundToLayer(abbvr) {
@@ -99,7 +110,6 @@ function MidiPad({
     console.log("current layers: ", layers)
     if (!layers) return;
 
-    
     // For each sound layer, build the sound pattern for the evaluate method
     const layersWithSounds = layers.filter(layer => layer.trim() !== "") // only get layers with sounds
     if(!layersWithSounds || layersWithSounds.length === 0) return;  // validate
@@ -115,12 +125,18 @@ function MidiPad({
     `)
   }
 
-  // Stops all sounds and resets states
+  // Stops all sounds from looping
   function stopSounds(){
     hush()  // mute all
-    setLayers(["", "", ""]) // clear layers
-    setIsLooping(false) // change state
   }
+
+  // Resets/clears sounds for fresh template
+  function stopAndClearSounds() {
+    hush()
+    setLayers(["", "", "", "", "", ""]) // clear layers
+    console.log(layers)
+  }
+
 
   return (
     <div className='bg-dark h-full w-full'>
@@ -145,9 +161,8 @@ function MidiPad({
           <div className="col">
             <div className='midi-controls'>
               <div className='midi-control-options mt-2'>
-                  <label className='text-md text-default-white mb-1'>Midi Pad Mode:</label>
+                  <label className='text-md text-default-white mb-1 w-1-2'>Midi Pad Mode:</label>
                   <label className='text-md text-default-white' >Tempo CPM: {tempo.toString()}</label>
-                  <label className='text-md text-default-white mr-3' >Stop</label>
                 </div>
               <div className='midi-control-options'>
                 
@@ -170,9 +185,12 @@ function MidiPad({
                     value={currentLayer}
                     onChange={(e) => setCurrentLayer(e.target.value)}
                   >
-                    <option value={0}>1</option>
-                    <option value={1}>2</option>
-                    <option value={2}>3</option>
+                    <option value={0}>L1</option>
+                    <option value={1}>L2</option>
+                    <option value={2}>L3</option>
+                    <option value={3}>L4</option>
+                    <option value={4}>L5</option>
+                    <option value={5}>L6</option>
                   </select>                  
                 )}
                 
@@ -185,7 +203,6 @@ function MidiPad({
                   max={180}
                   onChange={(e) => setTempo(e.target.value)}
                 />
-                <button disabled={!isLooping} className='btn btn-outline-danger' onClick={stopSounds}><FaCircleStop size={20}/></button>
               </div>
             </div>
             <div className='midi-btn-container bg-dark p-2'>

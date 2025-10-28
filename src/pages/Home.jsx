@@ -17,6 +17,10 @@ function Home() {
     const [showAdvancedSettings, setShowAdvancedSettings] = useState(false) // setting pop-up shown
     const [procText, setProcText] = useState(stranger_tune);  // current text shared between proc and repl
 
+    
+    const [isLooping, setIsLooping] = useState(false) // midi pad is looping sounds
+    const [layers, setLayers] = useState(["", "", "", "", "", ""]); // different sound loop layers to play simultaneously
+
     // Instrument states on/off based on radio button selection in MidiPad -> MuteRadioBtn
     // False is default state and indicates not muted
     const [instrumentStates, setInstrumentStates] = useState({
@@ -95,6 +99,9 @@ function Home() {
             togglePlayState={togglePlay}
             showProcessor={setShowProcessor}
             showAdvancedSettings={setShowAdvancedSettings}
+            isLooping={isLooping}
+            setIsLooping={setIsLooping}
+            setLayers={setLayers}
           />
         </div>
 
@@ -117,6 +124,10 @@ function Home() {
               updateInstrumentState={updateInstrumentState}
               instrumentLPF={instrumentLPF}
               updateInstrumentLPF={updateInstrumentLPF}
+              isLooping={isLooping}
+              setIsLooping={setIsLooping}
+              layers={layers}
+              setLayers={setLayers}
             />
           </div>
         </div>
