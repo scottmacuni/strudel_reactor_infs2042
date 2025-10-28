@@ -116,7 +116,9 @@ body {
 .w-1-4 { width: 25%; }
 .w-1-5 {width: 20%;}
 .w-3-4 {width: 75%}
+.w-10 {width: 10%;}
 .w-80 {width: 80%;}
+.w-90 {width: 90%;}
 
 /* Height helpers */
 .h-full { height: 100%; }
@@ -300,8 +302,33 @@ footer.fixed-bottom {
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.save-btn:hover {
-  background-color: var(--color-accent);
+.popup-visualizer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.popup-content-visualizer {
+  width: 95vw;
+  height: 95vh;
+  background: var(--color-dark);
+  border-radius: 5px;
+  border: 3px solid var(--color-neutral);
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.visualizer-trigger {
+  margin-top: 3px;
+  margin-left: 40px;
+  cursor: pointer;
+}
+
+.visualizer-trigger:hover {
+  border: 1px solid var(--color-accent);
 }
 
 /* Custom input for LPF settings */

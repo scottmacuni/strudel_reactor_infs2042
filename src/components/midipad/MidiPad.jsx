@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import MidiGrid from './MidiGrid'
 import MuteRadioBtn from './MuteRadioBtn'
 import {initStrudel, samples, s, hush, evaluate}  from "@strudel/web"
-import { FaCircleStop } from "react-icons/fa6";
 
 // TODO: see if you can get this to work
 /*   function cacheSamples() {
@@ -41,14 +40,11 @@ function MidiPad({
      initStrudel({
         prebake: () => samples('github:tidalcycles/dirt-samples'),
       });
-      // cacheSamples()
       setSoundsInit(true)
-
   }, [])
 
   // Play the sound loop when a new layer is modified
   useEffect(() => {
-    console.log("layers updated, playing sound loop..")
     if(isLooping){
       playSoundLoop();
     }
@@ -77,7 +73,6 @@ function MidiPad({
         // else the pattern is simply the new sound
         newPattern = abbvr.trim()
       }
-
       const updatedLayers = [...prev] // reference to update
       updatedLayers[currentLayer] = newPattern // update reference to new pattern
       return updatedLayers  // return the update state
@@ -98,19 +93,17 @@ function MidiPad({
   
   // Single sound emit followed by hush
   function playSoundSingle(abbvr) {
-    console.log("playing single: ", abbvr);
     const sound = s(`${abbvr}`).play();
     setTimeout(() => {
       if(sound){
         hush()
       }
     }
-    , 100)
+    , 1000)
   }
 
   // Plays the layered sounds in a stacked pattern
   function playSoundLoop(){
-    console.log("current layers: ", layers)
     if (!layers) return;
 
     // For each sound layer, build the sound pattern for the evaluate method
@@ -119,8 +112,7 @@ function MidiPad({
 
     // First sound is just s(pattern), remaining are stacked .stack(s(pattern))
     const soundPatterns = layersWithSounds.map((layer, idx) => (idx === 0 ? `s("${layer}")` : `.stack(s("${layer}"))`)).join("")
-    console.log("playing loop of layers:\n ", soundPatterns)
-
+    
     // Play
     evaluate(`
       setcpm(${tempo})

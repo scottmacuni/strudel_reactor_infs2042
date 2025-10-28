@@ -10,6 +10,8 @@ import InstrumentAdvancedSettings from '../components/popups/InstrumentAdvancedS
 import ExportDialog from '../components/popups/ExportDialog';
 import ImportDialog from '../components/popups/ImportDialog';
 import Notification from '../components/popups/Notification';
+import Visualizer from '../components/popups/Visualizer';
+import { PiDiscoBallFill } from "react-icons/pi";
 
 // Main home page rendered in App.tsx which structures the  React SPA
 function Home() {
@@ -24,6 +26,7 @@ function Home() {
     const [showExportDialog, setShowExport] = useState(false); // export midi pad loop pop-up show
     const [showImportDialog, setShowImport] = useState(false); // import midi pad loop pop-up show
     const [showNotification, setShowNotification] = useState(false) // notification pop-up
+    const [showVisualizer, setShowVisualizer] = useState(false) // D3 visualizer
     const [notificationMsg, setMessage] = useState("")
 
     // Midi pad states
@@ -63,8 +66,7 @@ function Home() {
 
     // Updates a single instrument state based on id from child componets
     const updateInstrumentLPF = (id, lpf) => {
-      console.log("instrument LPF change: ", id, lpf)
-      setInstrumentLPF(currentLPF => ({...currentLPF, [id]: lpf}));
+     setInstrumentLPF(currentLPF => ({...currentLPF, [id]: lpf}));
     }
 
     // State toggles
@@ -75,7 +77,6 @@ function Home() {
 
     // Processes text to handle custom prefixes before setting to REPL
     function proc(preProcText, settings=getInstrumentSettings()){
-      console.log("proc... ", settings);
       return Proc(preProcText, settings);
     }
 
@@ -114,16 +115,26 @@ function Home() {
         setShowNotification={setShowNotification}
       />
 
+      {/* Temporary pop up notifications */}
       <Notification
         isOpen={showNotification}
         onClose={() => setShowNotification(false)}
         message={notificationMsg}
       />
 
+      {/* Full screen visualizer */}
+      <Visualizer
+        isOpen={showVisualizer}
+        onClose={() => setShowVisualizer(false)}
+      />
+
       {/* Header */}
-      <header className="w-full d-flex flex-row text-left text-audiowide bg-dark p-2 fixed-top">
-        <h1 className="text-accent ms-2">Strudel Reactor</h1>
-        <RiMusicAiFill size={42} className="ms-2" fill="#DBF227" />
+      <header className="w-full d-flex flex-row text-left text-audiowide bg-dark p-2 fixed-top justify-items-between">
+        <div className='flex flex-row w-90'>
+          <h1 className="text-accent ml-3 mr-2">Strudel Reactor</h1>
+          <RiMusicAiFill size={42} className="ml-2 mt-1" fill="#DBF227" /> 
+        </div>
+            <PiDiscoBallFill className="visualizer-trigger" onClick={() => setShowVisualizer(true)} size={42} fill="#DBF227" /> 
       </header>
 
       {/* Main Content */}

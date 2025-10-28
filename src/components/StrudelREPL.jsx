@@ -38,10 +38,8 @@ function StrudelREPL({
     // Handle play state
     useEffect(() => {
         if(repl && isPlaying) {
-            console.log("start repl: ", repl)
             repl.evaluate();
         } else if (repl && !isPlaying) {
-            console.log("stop repl: ", repl)
             repl.stop();
         } else {
             console.log("ERR: no repl: ", repl)

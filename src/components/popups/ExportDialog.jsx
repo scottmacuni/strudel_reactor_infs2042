@@ -41,7 +41,6 @@ function ExportDialog({
 
         // Re-append to local storage with update
         localStorage.setItem(LOCAL_STORAGE_SOUNDS_KEY, JSON.stringify(storedSounds));
-        console.log("set new value: ", storedSounds)
     }
 
   return (

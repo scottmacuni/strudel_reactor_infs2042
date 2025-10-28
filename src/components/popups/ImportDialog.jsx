@@ -32,7 +32,7 @@ function ImportDialog({
         setMessage(`Successfully imported ${selectedSoundLoop["label"]}`)
 
         onClose()
-        
+
         setTimeout(() =>{
             setShowNotification(true)
         }, 300)
@@ -71,7 +71,6 @@ function ImportDialog({
                                 const selectedIdx = e.target.value;
                                 const selectedSound = loadedSounds[selectedIdx];
                                 setSelected(selectedSound)
-                                console.log("seleced: ", selectedSound)
                             }}
                         >
                             {loadedSounds.map((sound, idx) => (
