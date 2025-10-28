@@ -49,7 +49,9 @@ function MidiPad({
   // Play the sound loop when a new layer is modified
   useEffect(() => {
     console.log("layers updated, playing sound loop..")
-    playSoundLoop()
+    if(isLooping){
+      playSoundLoop();
+    }
   }, [layers])
 
   // Plays or stops sounds based on loop state
@@ -130,14 +132,6 @@ function MidiPad({
   function stopSounds(){
     hush()  // mute all
   }
-
-  // Resets/clears sounds for fresh template
-  function stopAndClearSounds() {
-    hush()
-    setLayers(["", "", "", "", "", ""]) // clear layers
-    console.log(layers)
-  }
-
 
   return (
     <div className='bg-dark h-full w-full'>

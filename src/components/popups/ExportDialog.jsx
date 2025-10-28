@@ -14,11 +14,12 @@ function ExportDialog({
     // Only render on open state
     if (!isOpen) return null;
 
+    // Export values to local storage and close dialog after timeout
     function onExport() {
         exportToLocalStorage();
         setTimeout(() =>{
             onClose()
-        }, 1000)
+        }, 800)
     }
 
     function exportToLocalStorage(){
@@ -26,14 +27,13 @@ function ExportDialog({
         if (!currentLayers || !soundLabel || !currentTempo) return;
         // Validate atleast one sound to save
         const layersWithSounds = currentLayers.filter(layer => layer.trim() !== "") 
-        console.log(layersWithSounds)
         if(!layersWithSounds || layersWithSounds.length === 0) return; 
 
         // Get existing storage if it exists to append to
-        const storedSounds = JSON.parse(localStorage.getItem(LOCAL_STORAGE_SOUNDS_KEY)) || {};
+        const storedSounds = JSON.parse(localStorage.getItem(LOCAL_STORAGE_SOUNDS_KEY)) || [];
 
         // Add/overwrite sound, add all even blank for easier import
-        storedSounds[soundLabel] = {"tempo": currentTempo, "layers": currentLayers}
+        storedSounds.push({"label": soundLabel, "tempo": currentTempo, "layers": currentLayers});
 
         // Re-append to local storage with update
         localStorage.setItem(LOCAL_STORAGE_SOUNDS_KEY, JSON.stringify(storedSounds));
