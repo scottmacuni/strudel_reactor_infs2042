@@ -9,6 +9,8 @@ function Preprocessor({
   onClose, 
   procText,
   setProcText,
+  setMessage,
+  setShowNotification
 }) {
   const [localTextBuf, setLocalTextBuf] = useState(""); // allows local editing before saving to parent state
 
@@ -27,7 +29,11 @@ function Preprocessor({
   // Handle save to main global state
   const handleSaveState = () => {
     setProcText(localTextBuf);
+    setMessage("Applied changes")
     onClose();
+    setTimeout(() => {
+      setShowNotification(true)
+    }, 300)
   }
 
   // Only render on open state

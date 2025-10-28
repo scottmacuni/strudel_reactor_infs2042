@@ -7,7 +7,9 @@ function ExportDialog({
     isOpen,
     onClose,
     currentLayers,
-    currentTempo
+    currentTempo,
+    setMessage,
+    setShowNotification
 }) {
     const [soundLabel, setLabel] = useState("");
 
@@ -17,9 +19,11 @@ function ExportDialog({
     // Export values to local storage and close dialog after timeout
     function onExport() {
         exportToLocalStorage();
+        setMessage("Saved to local storage")
+        onClose()
         setTimeout(() =>{
-            onClose()
-        }, 800)
+            setShowNotification(true)
+        }, 300)
     }
 
     function exportToLocalStorage(){

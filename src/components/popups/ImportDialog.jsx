@@ -6,7 +6,9 @@ import { LOCAL_STORAGE_SOUNDS_KEY } from "../../lib/helpers";
 function ImportDialog({
     isOpen,
     onClose,
-    setLayers
+    setLayers,
+    setMessage,
+    setShowNotification
 }) {
     const [loadedSounds, setLoadedSounds] = useState([]);
     const [selectedSoundLoop, setSelected] = useState([]);
@@ -27,10 +29,13 @@ function ImportDialog({
 
         const importedSoundLayers = selectedSoundLoop["layers"]
         setLayers(importedSoundLayers)
+        setMessage(`Successfully imported ${selectedSoundLoop["label"]}`)
+
+        onClose()
         
         setTimeout(() =>{
-            onClose()
-        }, 800)
+            setShowNotification(true)
+        }, 300)
     }
 
     // Only render on open state

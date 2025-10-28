@@ -56,10 +56,7 @@ export const midipadInstruments = [
         "abbvr": "supersaw",
     },
     {
-        "label": "Sawtooth",
-        "abbvr": "sawtooth",
+        "label": "Pause",
+        "abbvr": "~",
     },
-    
-     
-
 ]

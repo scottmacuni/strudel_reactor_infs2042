@@ -9,6 +9,7 @@ import { Proc } from '../lib/helpers';
 import InstrumentAdvancedSettings from '../components/popups/InstrumentAdvancedSettings';
 import ExportDialog from '../components/popups/ExportDialog';
 import ImportDialog from '../components/popups/ImportDialog';
+import Notification from '../components/popups/Notification';
 
 // Main home page rendered in App.tsx which structures the  React SPA
 function Home() {
@@ -22,6 +23,8 @@ function Home() {
     const [showAdvancedSettings, setShowAdvancedSettings] = useState(false); // setting pop-up show
     const [showExportDialog, setShowExport] = useState(false); // export midi pad loop pop-up show
     const [showImportDialog, setShowImport] = useState(false); // import midi pad loop pop-up show
+    const [showNotification, setShowNotification] = useState(false) // notification pop-up
+    const [notificationMsg, setMessage] = useState("")
 
     // Midi pad states
     const [isLooping, setIsLooping] = useState(false) // midi pad is looping sounds
@@ -84,6 +87,8 @@ function Home() {
         onClose={() => setShowProcessor(false)}
         procText={procText}
         setProcText={setProcText}
+        setMessage={setMessage}
+        setShowNotification={setShowNotification}
       />
       
       {/* Advanced settings hidden but opens as a popup dialog */}
@@ -98,12 +103,21 @@ function Home() {
         onClose={() => setShowExport(false)}
         currentLayers={layers}
         currentTempo={tempo}
+        setMessage={setMessage}
+        setShowNotification={setShowNotification}
       />
-
       <ImportDialog
         isOpen={showImportDialog}
         onClose={() => setShowImport(false)}
         setLayers={setLayers}
+        setMessage={setMessage}
+        setShowNotification={setShowNotification}
+      />
+
+      <Notification
+        isOpen={showNotification}
+        onClose={() => setShowNotification(false)}
+        message={notificationMsg}
       />
 
       {/* Header */}
@@ -125,6 +139,8 @@ function Home() {
             isLooping={isLooping}
             setIsLooping={setIsLooping}
             setLayers={setLayers}
+            setMessage={setMessage}
+            setShowNotification={setShowNotification}
           />
         </div>
 

@@ -16,13 +16,17 @@ function GlobalOptions({
     showImportDialog,
     isLooping,
     setIsLooping,
-    setLayers
+    setLayers,
+    setMessage,
+    setShowNotification
 }) {
 
   // Resets/clears sounds for fresh template
   function stopLoopAndClear() {
     setIsLooping(false)
     setLayers(["", "", "", "", "", ""]) // clear layers
+    setMessage("Cleared looped sounds")
+    setShowNotification(true)
   }
 
   return (

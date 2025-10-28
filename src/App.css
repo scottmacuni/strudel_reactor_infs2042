@@ -281,6 +281,25 @@ footer.fixed-bottom {
   overflow-y: auto;
 }
 
+.popup-notify {
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.popup-content-notify {
+  width: 20vw;
+  height: 5vh;
+  background: var(--color-dark);
+  border-radius: 3px;
+  border: 2px solid var(--color-accent);
+  padding: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
 .save-btn:hover {
   background-color: var(--color-accent);
 }
