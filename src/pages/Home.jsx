@@ -126,6 +126,7 @@ function Home() {
       <Visualizer
         isOpen={showVisualizer}
         onClose={() => setShowVisualizer(false)}
+        isPlaying={isPlaying}
       />
 
       {/* Header */}
