@@ -3,17 +3,6 @@ import MidiGrid from './MidiGrid'
 import MuteRadioBtn from './MuteRadioBtn'
 import {initStrudel, samples, s, hush, evaluate}  from "@strudel/web"
 
-// TODO: see if you can get this to work
-/*   function cacheSamples() {
-    console.log("prefetching midi samples... ")
-    evaluate(`
-      s("bd sd hh cp cr ht mt lt cb perc supersaw sawtooth").hush()   
-    `)
-      setTimeout(() =>{ 
-          hush()
-      }
-      , 50) 
-  } */
 
 // The midi pad controller component left of the Strudel REPL
 // Allows for single sounds to be played with the midi pad outside of the REPL code
@@ -185,7 +174,7 @@ function MidiPad({
                   id='tempo-select' 
                   type='range' 
                   className='form-range mt-1'
-                  defaultValue={60}
+                  value={tempo}
                   min={10} 
                   max={180}
                   onChange={(e) => setTempo(e.target.value)}

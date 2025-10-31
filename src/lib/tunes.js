@@ -1,4 +1,3 @@
-// TODO: reimplement the pre-processor
 export const stranger_tune = `setcps(140/60/4)
 
 samples('github:algorave-dave/samples')
@@ -99,4 +98,28 @@ stack(
 // all(x => x.log())
 
 // @version 1.2`;
+
+export const custom_tune = `setcpm(140/4)
+
+samples('https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/strudel.json')
+samples('https://raw.githubusercontent.com/Mittans/tidal-drum-machines/main/machines/tidal-drum-machines.json')
+
+<1_radio>base:  
+n("0".add(-14)).scale("g:minor").s("supersaw").lpf(<1_lpf>)
+
+<2_radio>bank: 
+sound("bd sd [- bd] sd").bank("RolandTR909").lpf(<2_lpf>)
+
+<3_radio>snare:
+sound(\`
+[-  -  oh - ] [-  -  -  - ] [-  -  -  - ] [-  -  -  - ],
+[hh hh -  - ] [hh -  hh - ] [hh -  hh - ] [hh -  hh - ],
+[-  -  -  - ] [cp -  -  - ] [-  -  -  - ] [cp -  -  - ],
+[bd -  -  - ] [-  -  -  bd] [-  -  bd - ] [-  -  -  bd]
+\`)
+
+<4_radio>piano:
+note("48 67 63 [62, 58]")
+.sound("piano, gm_electric_guitar_muted")
+`
 

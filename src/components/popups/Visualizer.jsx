@@ -51,8 +51,6 @@ function Visualizer({
       if(!isOpen || !isPlaying) return;
 
        const interval = setInterval(() => {
-          console.log("pop next..")
-
           // Get from front of array
           setAllValues(current => {
             if(current && current.length > 0){
@@ -62,14 +60,6 @@ function Visualizer({
             }
             return current; // else dont modify
           })
-          // if(allValues && allValues.length > 0){
-            // let currentVals = allValues;            
-            // let nextVal = currentVals.pop();
-            // if(nextVal){
-              // setNextVal(nextVal)
-            // }
-            // setAllValues(currentVals)
-          // }
         }, valueTimeOut);
 
         return () => clearInterval(interval)
@@ -79,8 +69,6 @@ function Visualizer({
     // Update graph array every time new value is popped
     useEffect(() => {
       if(!isOpen || !isPlaying) return;
-
-      console.log("update graphArr..")
       let tempArr = [...graphArr, nextVal];
       if (tempArr.length > maxItems) { tempArr.shift() }
       setGraphArr(tempArr);
@@ -90,8 +78,6 @@ function Visualizer({
     // Draws a new chart when values are updated
     useEffect(() => {
       if(!isOpen || !isPlaying || !graphArr.length > 0) return;
-      console.log("draw")
-
       // Determines which chart type to draw
       if(mode === "bar") {
         drawBarChart()
@@ -106,8 +92,6 @@ function Visualizer({
 
       const svg = d3.select('#graph');
       if(!svg) return;
-
-      console.log("svg found ", graphArr.length)
       svg.selectAll("*").remove();
 
       let w = svg.node().getBoundingClientRect().width - 40
@@ -179,8 +163,8 @@ function Visualizer({
           .attr("y2", yScale(maxVal))
           .selectAll("stop")
           .data([
-              { offset: "0%", color: "green" },
-              { offset: "100%", color: "red" }
+              { offset: "0%", color: "purple" },
+              { offset: "100%", color: "lime" }
           ])
           .enter().append("stop")
           .attr("offset", function (d) { return d.offset; })
@@ -191,7 +175,7 @@ function Visualizer({
           .datum(graphArr)
           .attr('fill', 'none')
           .attr('stroke', 'url(#line-gradient)')
-          .attr('stroke-width', 1.5)
+          .attr('stroke-width', 5)
           .attr('d', d3.line()
               .x((d, i) => i * barWidth)
               .y((d) => yScale(d))

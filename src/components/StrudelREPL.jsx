@@ -75,9 +75,7 @@ useEffect(() => {
   // Handle proc text change, or instrument state change
   useEffect(() => {
     if(repl){
-      console.log("change proc text received, setting in REPL")
       repl.setCode(proc(procText)); // set REPL code to processed text
-
       // If playing, reevaluate to apply changes
       if(isPlaying){
         repl.evaluate()

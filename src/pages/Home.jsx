@@ -4,7 +4,7 @@ import { RiMusicAiFill } from "react-icons/ri"; // Insalled react-icons npm lib
 import GlobalOptions from '../components/GlobalOptions';
 import MidiPad from '../components/midipad/MidiPad';
 import Preprocessor from '../components/popups/Preprocessor';
-import {stranger_tune} from "../lib/tunes";
+import {stranger_tune, custom_tune} from "../lib/tunes";
 import { Proc } from '../lib/helpers';
 import InstrumentAdvancedSettings from '../components/popups/InstrumentAdvancedSettings';
 import ExportDialog from '../components/popups/ExportDialog';
@@ -18,7 +18,7 @@ function Home() {
 
     // Global states
     const [isPlaying, setIsPlaying] = useState(false);  // main REPL is playing
-    const [procText, setProcText] = useState(stranger_tune);  // current text shared between proc and repl
+    const [procText, setProcText] = useState(custom_tune);  // current text shared between proc and repl
 
     // Popup states
     const [showProcessor, setShowProcessor] = useState(false);  // processor pop-up shown
@@ -32,7 +32,7 @@ function Home() {
     // Midi pad states
     const [isLooping, setIsLooping] = useState(false) // midi pad is looping sounds
     const [layers, setLayers] = useState(["", "", "", "", "", ""]); // different sound loop layers to play simultaneously
-    const [tempo, setTempo] = useState(60)  // CPM tempo
+    const [tempo, setTempo] = useState(35)  // CPM tempo
 
     // Instrument states on/off based on radio button selection in MidiPad -> MuteRadioBtn
     // False is default state and indicates not muted
@@ -71,7 +71,6 @@ function Home() {
 
     // State toggles
     const togglePlay = (state) => {
-        console.log("Play state change: ", state)
         setIsPlaying(state);
     }
 

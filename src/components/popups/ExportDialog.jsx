@@ -27,7 +27,6 @@ function ExportDialog({
     }
 
     function exportToLocalStorage(){
-        console.log("exporting...")
         if (!currentLayers || !soundLabel || !currentTempo) return;
         // Validate atleast one sound to save
         const layersWithSounds = currentLayers.filter(layer => layer.trim() !== "") 
