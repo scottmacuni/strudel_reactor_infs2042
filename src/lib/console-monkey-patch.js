@@ -35,15 +35,11 @@ export default function console_monkey_patch() {
 
             // Get values which may be provided to do random calculations
             let cutoff = value["cutoff"] ? value["cutoff"] : 250
-            let gain = value["gain"] ? value["gain"] : 0.5
-            let postgain = value["postgain"] ? value["postgain"] : 2
-            let speed = value["speed"] ? value["speed"] : 0.2
+            let spicyRandomValue = Math.random();
 
             // Formula to get graphValue
-            graphValue = graphValue + cutoff;
-            graphValue = graphValue * (1 + gain);
-            graphValue = graphValue * postgain;
-            graphValue = Math.floor(graphValue * (multiplier * (speed + 1)))
+            graphValue = graphValue + cutoff + spicyRandomValue;
+            graphValue = Math.floor(graphValue * multiplier)
 
             if(graphValue > maxValue){
                 graphValue = maxValue - (graphValue % maxValue)
@@ -52,19 +48,21 @@ export default function console_monkey_patch() {
             }
             
             //If so, add it to the Array of values.
-            //Then remove the oldest values once we've hit 60.
+            //Then remove the oldest values once we've hit 100.
             logArray.push(graphValue);
 
-            if (logArray.length > 60) {
+            if (logArray.length > 100) {
                 logArray.splice(0, 1);
             }
             //Dispatch a customevent we can listen to in App.js
             const event = new CustomEvent("d3Data", { detail: [...logArray] });
             document.dispatchEvent(event);
-
+        }
+        // Regular log for non hap logs
+        else {
+            originalLog.apply(console, args);
         }
     };
-
 }
 
 export function getD3Data() {
