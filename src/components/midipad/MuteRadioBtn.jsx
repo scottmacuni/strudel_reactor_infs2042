@@ -12,7 +12,7 @@ function MuteRadioBtn({
 }) {
   return (
     <div className='text-center mb-2'>
-    <p className='text-lg text-accent text-audiowide mb-1'>{instrumentId.toString()}</p>
+    <p className='text-lg text-accent text-audiowide mb-1'>ID: {instrumentId.toString()}</p>
      <div className="switch-container d-inline-flex border rounded-pill overflow-hidden">
       <label className="flex-fill text-center m-0">
         <input

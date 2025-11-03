@@ -50,7 +50,7 @@ function InstrumentAdvancedSettings({
             <div className='flex flex-row justify-center mt-2 gap-3'>
               {[1, 2, 3, 4].map(id => (
                 <div className='w-full' key={id}>
-                  <p className='text-default-white text-md mr-2'>{id}:</p>
+                  <p className='text-default-white text-md mr-2'>ID {id}:</p>
                   <select 
                     className="form-control"
                     onChange={(e) => setInstrumentSpeed(id, e.target.value)}
