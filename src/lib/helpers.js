@@ -16,7 +16,17 @@ export function Proc(pre_proc_text, settings) {
     Object.entries(lpfSettings).forEach(([id, lpf]) => {
       proc_text = handleLPFSettings(proc_text, id, lpf)
     })
-    
+
+    // Handle drum selection
+    const drumChoice = settings["drum"]
+    proc_text = handleDrumChoice(proc_text, drumChoice)
+
+    // Handle instrument playback speed
+    const instrumentSpeedSettings = settings["speed"]
+    Object.entries(instrumentSpeedSettings).forEach(([id, speed]) => {
+      proc_text = handleSpeedSettings(proc_text, id, speed)
+    })
+
   }
 
   // Return processed text for REPL
@@ -38,5 +48,19 @@ function handleMuteState(text, instrumentId, muteState) {
 function handleLPFSettings(text, instrumentId, lpf) {
     let proc_text_replaced = text
     proc_text_replaced = proc_text_replaced.replaceAll(`<${instrumentId}_lpf>`, lpf);
+    return proc_text_replaced
+}
+
+// Replaces drum selection prefix with provided value
+function handleDrumChoice(text, drum) {
+    let proc_text_replaced = text
+    proc_text_replaced = proc_text_replaced.replaceAll(`<drum>`, `"${drum}"`);
+    return proc_text_replaced
+}
+
+// Replaces speed value prefix with provided value
+function handleSpeedSettings(text, instrumentId, speed) {
+    let proc_text_replaced = text
+    proc_text_replaced = proc_text_replaced.replaceAll(`<${instrumentId}_speed>`, speed);
     return proc_text_replaced
 }

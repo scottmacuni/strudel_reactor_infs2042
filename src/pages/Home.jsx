@@ -4,7 +4,7 @@ import { RiMusicAiFill } from "react-icons/ri"; // Insalled react-icons npm lib
 import GlobalOptions from '../components/GlobalOptions';
 import MidiPad from '../components/midipad/MidiPad';
 import Preprocessor from '../components/popups/Preprocessor';
-import {stranger_tune, custom_tune} from "../lib/tunes";
+import {custom_tune} from "../lib/tunes";
 import { Proc } from '../lib/helpers';
 import InstrumentAdvancedSettings from '../components/popups/InstrumentAdvancedSettings';
 import ExportDialog from '../components/popups/ExportDialog';
@@ -50,11 +50,22 @@ function Home() {
       4: 1000
     });
 
+    const [drum, setDrum] = useState("RolandTR909");
+
+    const [instrumentSpeed, setInstrumentSpeed] = useState({
+      1: 1,
+      2: 1,
+      3: 1,
+      4: 1
+    })
+
     // Gets the settings used in the Proc function to mute or allow
     const getInstrumentSettings = () => {
       const settings = {
         "states": instrumentStates,
-        "lpf": instrumentLPF 
+        "lpf": instrumentLPF,
+        "drum": drum,
+        "speed": instrumentSpeed,
       }
       return settings
     }
@@ -67,6 +78,11 @@ function Home() {
     // Updates a single instrument state based on id from child componets
     const updateInstrumentLPF = (id, lpf) => {
      setInstrumentLPF(currentLPF => ({...currentLPF, [id]: lpf}));
+    }
+    
+    // Updates a single instrument state based on id from child componets
+    const updateInstrumentSpeed = (id, speed) => {
+     setInstrumentSpeed(currentSpeed => ({...currentSpeed, [id]: speed}));
     }
 
     // State toggles
@@ -95,6 +111,13 @@ function Home() {
       <InstrumentAdvancedSettings 
         isOpen={showAdvancedSettings} 
         onClose={() => setShowAdvancedSettings(false)}
+        drum={drum}
+        setDrum={setDrum}
+        instrumentSpeed={instrumentSpeed}
+        setInstrumentSpeed={updateInstrumentSpeed}
+        proc={proc}
+        setMessage={setMessage}
+        setShowNotification={setShowNotification}
       />
       
       {/* Export and import dialogs to save to local storage */}
@@ -163,6 +186,8 @@ function Home() {
               procText={procText}
               instrumentStates={instrumentStates}
               instrumentLPF={instrumentLPF}
+              instrumentSpeed={instrumentSpeed}
+              drum={drum}
               proc={proc}
             />
           </div>

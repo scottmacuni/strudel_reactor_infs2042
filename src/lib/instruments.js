@@ -1,13 +1,8 @@
 
-export const drums = {
-    "default": null,
-    "roland9": "RolandTR909",
-    "roland8": "RolandTR808",
-    "roland7": "RolandTR707",
-    "akai": "AkaiLinn",
-    "rythm": "RhythmAce",
-    "visco": "ViscoSpaceDrum",
-}
+export const drums = [
+    "RolandTR909", "RolandTR808", "RolandTR707", "AkaiLinn", 
+    "RhythmAce", "ViscoSpaceDrum"
+]
 
 // Samples to use in the 4 x 3 midi pad grid
 export const midipadInstruments = [
