@@ -4,29 +4,28 @@
 ## Overview
 This web application was developed as a part of the INFT 2064 Web Technology course work. 
 
-It is a React Application which builds upon the Strudel.cc npm libraries to provide an interface for the user to orchestrate, play, and modify songs using the strudel syntax, or midi pad drum machine.
+It is a React Application which builds upon the Strudel.cc npm libraries to provide an interface for the user to orchestrate, play, and modify songs using the strudel REPL, or via a no-code midi pad drum machine.
 
 It features two main panels which provide alternative ways to interact with the libraries and create sound effects.
-1) Strudel REPL - the left panel features the traditional strudel REPL where you can write traditional strudel code to construct your songs.
+1) Strudel REPL - the left panel features the traditional strudel REPL where you can write strudel code to construct your songs.
 2) Midi Pad - the right panel features a midi pad drum machine which allows you to construct songs from layered sound loops, a no-code solution for interacting with strudel.
 
 ### Features
 A quick summary of the features provided by the application interfaces:
 
 GLOBAL:
-- Notification system to inform users about important alerts 
-- Play REPL and Midi Pad simultaneously
+- Notification system to inform users about important alerts and provide feedback on actions
 
 REPL
-- Write code directly into the REPL and use pause/play buttons to interact
-- Use the pre-processor editor to apply custom <> tags which allow instant modifications to REPL via different settings buttons
-- Use the advanced settings panel to change the default drum effect and instrument playback speed
-- Use the basic setings (right of REPL) to mute instruments or apply filters to sound output
+- Write code directly into the REPL and use pause/play buttons to interact and play sounds
+- Use the pre-processor editor to apply custom <> tags which allow instant modifications to REPL code via different settings 
+- Use the advanced settings panel to change the default drum effect and instrument group playback speed
+- Use the basic setings (right of REPL) to mute instruments or apply low pass filters to sound output
 - Click the visualiser to see a bar chart or line chart visual of the sounds being played
 
 MIDI PAD
 - Use single beat mode to test the instrument noises for a single sound effect
-- Use loop mode to build up to 6 layers of looped sound effects to create beats from single sounds at specified CPM
+- Use loop mode to build up to 6 layers of looped sound effects to create beats from single sounds at specified cycle speed
 - Play, pause, and clear currently created loops
 - Save custom sound loops to local storage for importing
 - Import saved custom sound loops from local storage
@@ -42,6 +41,20 @@ Installation steps
 4) Run local server `npm start`
 5) Navigate to localhost:3000 to view application (see terminal output for your localhost port in case of clashes)
 
+### Folder structure
+- /src: source code root folder, top level components, entry points, styles, config
+    - App.jsx: main app parent
+    - index.js: entry point for rendering in web page
+    - App.css: main stylesheet
+    - /pages: contains main page used in SPA, top level page component
+        - Home.jsx: main app page, top level state management
+    - /components: contains all modular components used
+        - GlobalOptions.jsx: main top bar options and settings
+        - StrudelRepl.jsx: left side application panel
+        - /midipad: contains all components relating to right side midi pad panel
+        - /popups: contains all pop up components used in application
+    - /lib: contains helper functions and global constants used in application
+
 ## User Guide
 Demo Video - TODO
 
@@ -50,13 +63,13 @@ Preprocessor Syntax Cheatsheet
 usage eg. `sound(...).bank(<drum>)` will replace the <drum> with whatever drum is selected in advanced settings.
 
 - <id_radio> : place this tag before the instrument declaration in the pre-processor to enable it to be muted via the instrument settings buttons right of the REPL 
-usage eg. `<1_radio>snare` will mean that the snare instrument will be muted with the 1 id radio button is clicked.
+usage eg. `<1_radio>snare` will mean that the snare instrument will be muted with the 1 id mute radio button is clicked.
 
 - <id_lpf> : place this tag inside of a .lpf() method in the pre-processor for the LPF value to be applied as a low pass filter which modifies the sound volume
 usage eg. `sound(...).lpf(<1_lpf>)` will mean that the value displayed in the 1 LPF setting will be applied as the low pass filter value.
 
 - <id_speed> : place this tag inside of a .fast() method in the pre-processor for the advanced setting speed selection to be applied
-usage eg. `sound(...).fast(<1_speed>)` will mean that the value selected in advanced settings will be applied, options include default, half, or double speed.
+usage eg. `sound(...).fast(<1_speed>)` will mean that the value selected in advanced settings will be applied, options include default speed, half speed, or double speed.
 
 ### Main Panels
 REPL
@@ -119,8 +132,8 @@ VISUALISER
 - If you haven't saved a loop to local storage, you won't have anything to import
 
 ### Bonus Points
-- TODO
+- Created custom REPL song using various instruments, patterns, sounds, and custom pre-processor additions
+- Ability to use both REPL and Midipad functionality in sync for unique combinations
 
 ## Limitations / Improvements
 - Given more time, it would be nice to implement dynamic ID naming conventions and support for as many instrument IDs as the user wants. The current limitation of 4 IDs gives a lot of flexibility and combinations which can be applied, but means that some instruments must be grouped together to allow settings to apply to all instruments in the case where > 4 instruments are used.
-
