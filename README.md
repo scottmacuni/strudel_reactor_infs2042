@@ -32,7 +32,8 @@ MIDI PAD
 
 ### Installation / Dependencies
 The following dependencies are required to install and use this application
-1) [Node Js](https://nodejs.org/en/download)
+
+[Node Js](https://nodejs.org/en/download)
 
 Installation steps
 1) Clone this repository locally `git clone https://github.com/scottmacuni/strudel_reactor_infs2042.git`
@@ -55,20 +56,23 @@ Installation steps
         - /popups: contains all pop up components used in application
     - /lib: contains helper functions and global constants used in application
 
-## User Guide
-Demo Video - TODO
+### Demo Video
+Accessible as an unlisted YouTube video
 
+[View Demo](https://youtu.be/9Z5rI6bp_mI)
+
+## User Guide
 Preprocessor Syntax Cheatsheet
-- <drum> : place this tag inside of a .bank() method in the pre-processor for the advanced setting drum selection to apply 
+<drum> : place this tag inside of a .bank() method in the pre-processor for the advanced setting drum selection to apply 
 usage eg. `sound(...).bank(<drum>)` will replace the <drum> with whatever drum is selected in advanced settings.
 
-- <id_radio> : place this tag before the instrument declaration in the pre-processor to enable it to be muted via the instrument settings buttons right of the REPL 
+<id_radio> : place this tag before the instrument declaration in the pre-processor to enable it to be muted via the instrument settings buttons right of the REPL 
 usage eg. `<1_radio>snare` will mean that the snare instrument will be muted with the 1 id mute radio button is clicked.
 
-- <id_lpf> : place this tag inside of a .lpf() method in the pre-processor for the LPF value to be applied as a low pass filter which modifies the sound volume
+<id_lpf> : place this tag inside of a .lpf() method in the pre-processor for the LPF value to be applied as a low pass filter which modifies the sound volume
 usage eg. `sound(...).lpf(<1_lpf>)` will mean that the value displayed in the 1 LPF setting will be applied as the low pass filter value.
 
-- <id_speed> : place this tag inside of a .fast() method in the pre-processor for the advanced setting speed selection to be applied
+<id_speed> : place this tag inside of a .fast() method in the pre-processor for the advanced setting speed selection to be applied
 usage eg. `sound(...).fast(<1_speed>)` will mean that the value selected in advanced settings will be applied, options include default speed, half speed, or double speed.
 
 ### Main Panels
