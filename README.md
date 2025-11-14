@@ -64,7 +64,7 @@ Installation steps
 ### Demo Video
 Accessible as an unlisted YouTube video
 
-[View Demo](https://youtu.be/9Z5rI6bp_mI)
+[View Demo](https://youtu.be/lTTh5vQtqWM)
 
 ## User Guide
 Preprocessor Syntax Cheatsheet
