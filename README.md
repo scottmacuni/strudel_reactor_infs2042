@@ -1,7 +1,9 @@
 # Strudel Reactor
+
 ![App Home Page](./public/screenshots/app-home.png)
 
 ## Overview
+
 This web application was developed as a part of the INFT 2064 Web Technology course work. 
 
 It is a React Application which builds upon the Strudel.cc npm libraries to provide an interface for the user to orchestrate, play, and modify songs using the strudel REPL, or via a no-code midi pad drum machine.
@@ -11,6 +13,7 @@ It features two main panels which provide alternative ways to interact with the 
 2) Midi Pad - the right panel features a midi pad drum machine which allows you to construct songs from layered sound loops, a no-code solution for interacting with strudel.
 
 ### Features
+
 A quick summary of the features provided by the application interfaces:
 
 GLOBAL:
@@ -31,6 +34,7 @@ MIDI PAD
 - Import saved custom sound loops from local storage
 
 ### Installation / Dependencies
+
 The following dependencies are required to install and use this application
 
 [Node Js](https://nodejs.org/en/download)
@@ -43,6 +47,7 @@ Installation steps
 5) Navigate to localhost:3000 to view application (see terminal output for your localhost port in case of clashes)
 
 ### Folder structure
+
 - /src: source code root folder, top level components, entry points, styles, config
     - App.jsx: main app parent
     - index.js: entry point for rendering in web page
@@ -63,6 +68,7 @@ Accessible as an unlisted YouTube video
 
 ## User Guide
 Preprocessor Syntax Cheatsheet
+
 <drum> : place this tag inside of a .bank() method in the pre-processor for the advanced setting drum selection to apply 
 usage eg. `sound(...).bank(<drum>)` will replace the <drum> with whatever drum is selected in advanced settings.
 
@@ -76,6 +82,7 @@ usage eg. `sound(...).lpf(<1_lpf>)` will mean that the value displayed in the 1 
 usage eg. `sound(...).fast(<1_speed>)` will mean that the value selected in advanced settings will be applied, options include default speed, half speed, or double speed.
 
 ### Main Panels
+
 REPL
 - Type into the REPL to make direct changes to the REPL code being played
 - Edit icon button (top-left): opens pre-processor pop up to apply custom pre-process tags (see cheatsheet above)
@@ -99,6 +106,7 @@ MIDI PAD
 - Load icon button (top-right): opens the load loop panel, allowing import of saved loops from local storage 
 
 ### POPUPS
+
 PRE-PROCESSOR
 - Type into the textarea to apply tags, or modify the REPL code
 - Save button: applies changes, processes tags accordingly, upadates REPL, alerts user of changes
@@ -124,6 +132,7 @@ VISUALISER
 - Setting select: choose between bar chart and line chart visual display
 
 ### Notes / Quirks
+
 - There are 4 primary instrument ids which can be used for applying pre-processor modifications in the REPL. IDs can be reused which will apply the setting to multiple instruments, eg <1_radio> can be applied to all instruments, which will then all be muted when clicking the 1 Radio button in the application. The provided ids are 1 -> 4, using Ids outside of this range will not apply changes and is not currently supported.
 - Drum selection is not specified on an instrument level, all <drum> tags will be changed to the global selection.
 - The REPL and Midi Pad can be played at the same time but is hard to sync their cycles for a smooth sounding beat, good luck.
@@ -136,8 +145,10 @@ VISUALISER
 - If you haven't saved a loop to local storage, you won't have anything to import
 
 ### Bonus Points
+
 - Created custom REPL song using various instruments, patterns, sounds, and custom pre-processor additions
 - Ability to use both REPL and Midipad functionality in sync for unique combinations
 
 ## Limitations / Improvements
+
 - Given more time, it would be nice to implement dynamic ID naming conventions and support for as many instrument IDs as the user wants. The current limitation of 4 IDs gives a lot of flexibility and combinations which can be applied, but means that some instruments must be grouped together to allow settings to apply to all instruments in the case where > 4 instruments are used.
