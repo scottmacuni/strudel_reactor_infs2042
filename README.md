@@ -69,7 +69,7 @@ Accessible as an unlisted YouTube video
 ## User Guide
 Preprocessor Syntax Cheatsheet
 
-<drum> : place this tag inside of a .bank() method in the pre-processor for the advanced setting drum selection to apply 
+\<drum> : place this tag inside of a .bank() method in the pre-processor for the advanced setting drum selection to apply 
 usage eg. `sound(...).bank(<drum>)` will replace the <drum> with whatever drum is selected in advanced settings.
 
 <id_radio> : place this tag before the instrument declaration in the pre-processor to enable it to be muted via the instrument settings buttons right of the REPL 
